@@ -1,4 +1,6 @@
+import { Document } from "mongoose";
+
 export interface IRead<T> {
-    retrieve: (callback: (error: any, result: Array<T>) => void) => void;
-    findById: (id: string, callback: (error: any, result: T) => void) => void;
+  retrieve: () => Promise<Document[]>;
+  findById: (id: string) => Promise<Document>;
 }

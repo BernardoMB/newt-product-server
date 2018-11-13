@@ -1,12 +1,12 @@
-import { Model, model, Schema } from "mongoose";
+import { Model, model, Schema } from 'mongoose';
 
-import { IProduct } from "../../models/interfaces/IProduct";
+import { IProduct } from '../../models/interfaces/IProduct';
 
 const schema: Schema = new Schema({
   name: { type: String, required: true },
   code: { type: String, required: true },
   kind: { type: Number, required: false },
-  amounts: { type: { amount: Number, description: String }, required: true },
+  amounts: { type: [{ amount: Number, description: String }], required: true },
   providerId: { type: String, required: true },
   paymentCurrency: { type: String, required: true },
   icon: { type: String, required: false },
@@ -18,6 +18,6 @@ const schema: Schema = new Schema({
 });
 
 export const ProductSchema: Model<IProduct> = model<IProduct>(
-  "product",
+  'product',
   schema
 );

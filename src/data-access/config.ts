@@ -1,9 +1,9 @@
-import * as Mongoose from "mongoose";
+import * as Mongoose from 'mongoose';
 
 let DB_NAME;
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   //Local Database
-  DB_NAME = "mongodb://localhost/newt";
+  DB_NAME = 'mongodb://localhost/newt';
 } else {
   //MLab Hosted Database
   DB_NAME = process.env.MLAB;
@@ -18,25 +18,31 @@ export class Db {
   }
 
   //method for connecting to the DB via mongoose
-  public connect(): void {
-    if (this.auth) {
-      Mongoose.connect(
-        DB_NAME,
-        { useNewUrlParser: true, user: "newt", pass: "mimaamakim" }
-      )
-        .then(() => console.log(`Connected to db: ${DB_NAME}`))
-        .catch(err => console.log(`Error connecting to db: ${err}`));
-    } else {
-      Mongoose.connect(
-        DB_NAME,
-        { useNewUrlParser: true }
-      )
-        .then(() => console.log(`Connected to db: ${DB_NAME}`))
-        .catch(err => console.log(`Error connecting to db: ${err}`));
+  async connect() {
+    try {
+      if (this.auth) {
+        await Mongoose.connect(
+          DB_NAME,
+          { useNewUrlParser: true, user: 'newt', pass: 'mimaamakim' }
+        );
+      } else {
+        await Mongoose.connect(
+          DB_NAME,
+          { useNewUrlParser: true }
+        );
+      }
+      console.log(`Connected to db: ${DB_NAME}`);
+    } catch (e) {
+      console.error(`Error connecting to db: ${e}`);
     }
   }
 
-  public disconnect(): void {
-    Mongoose.connection.close();
+  async disconnect() {
+    try {
+      await Mongoose.connection.close();
+      console.log(`Disconnected from db: ${DB_NAME}`);
+    } catch (e) {
+      console.error(`Error disconnecting from db: ${e}`);
+    }
   }
 }

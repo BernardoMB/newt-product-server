@@ -1,5 +1,7 @@
+import { Document } from 'mongoose';
+
 export interface IWrite<T> {
-    create: (item: T, callback: (error: any, result: T ) => void) => void;
-    update: (_id: string, item: T, callback: (error: any, result: T) => void) => void ;
-    delete: (_id: string, callback: (error: any, result: string) => void) => void;
+    create: (item: T) => Promise<Document>;
+    update: (_id: string, item: T) =>  Promise<Document>;
+    delete: (_id: string) => Promise<any>;
 }

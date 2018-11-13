@@ -1,105 +1,127 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from 'express';
+import { validationResult, param } from 'express-validator/check';
+import { Types } from 'mongoose';
 
-import { IBaseController } from "./interfaces/base/BaseController";
-import { IProduct } from "./../models/interfaces/IProduct";
-import { ProductBusiness } from "../business/ProductBusiness";
+import { IBaseController } from './interfaces/base/BaseController';
+import { IProduct } from './../models/interfaces/IProduct';
+import { ProductBusiness } from '../business/ProductBusiness';
 
 export class ProductController implements IBaseController<ProductBusiness> {
-  public create(req: Request, res: Response): void {
+  public async create(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const product: IProduct = <IProduct>req.body;
       const productBusiness = new ProductBusiness();
-      productBusiness.create(product, (error, result) => {
-        if (error) {
-          console.error(error);
-          res.status(500).json({ message: "ERROR_CREATING[product]", error });
-        } else {
-          res.json({ product: result });
-        }
-      });
+      const result: IProduct = await productBusiness.create(product);
+      res.json({ product: result });
     } catch (error) {
-      console.error("Error creating product", error);
-      res.status(400).json({ message: "ERROR_CREATING[product]", error });
+      next({
+        message: `Error creating product: ${error.message}`,
+        code: 500
+      });
     }
   }
 
-  public update(req: Request, res: Response): void {
+  public async update(req: Request, res: Response, next: NextFunction) {
     try {
       const product: IProduct = <IProduct>req.body;
-      const _id: string = req.params.id;
+      const {
+        params: { id }
+      } = req;
       const productBusiness = new ProductBusiness();
-      productBusiness.update(_id, product, (error, result) => {
-        if (error) {
-          res.status(500).json({ message: "ERROR_UPDATING[product]", error });
-        }
-        if (!result) {
-          return res.status(404).json({
-            message: "NOT_FOUND[product]",
-            error: new Error("product not found")
-          });
-        }
-        res.json({ product });
-      });
+      const result = await productBusiness.update(id, product);
+      if (!result) {
+        next({
+          message: 'Error updating product: product not found',
+          code: 404
+        });
+      } else {
+        res.status(201).json({ product });
+      }
     } catch (error) {
-      console.error("Error updating product", error);
-      res.status(400).json({ message: "ERROR_UPDATING[product]", error });
+      next({
+        message: `Error updating product: ${error.message}`,
+        code: 500
+      });
     }
   }
 
-  public delete(req: Request, res: Response): void {
+  public async delete(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
-      const _id: string = req.params.id;
+      const {
+        params: { id }
+      } = req;
       const productBusiness = new ProductBusiness();
-      productBusiness.delete(_id, (error, result) => {
-        if (error) {
-          res.status(500).json({ message: "ERROR_DELETING[product]", error });
-        } else {
-          res.json({ id: _id });
-        }
-      });
+      await productBusiness.delete(id);
+      res.json({ id });
     } catch (error) {
-      console.error("Error deleting product", error);
-      res.status(500).json({ message: "ERROR_DELETING[product]", error });
+      next({
+        message: `Error deleting product: ${error.message}`,
+        code: 500
+      });
     }
   }
 
-  public retrieve(req: Request, res: Response): void {
+  public async retrieve(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const productBusiness = new ProductBusiness();
-      productBusiness.retrieve((error, result) => {
-        if (error) {
-          res.status(500).json({ message: "ERROR_RETRIEVING[product]", error });
-        } else {
-          res.json({ products: result });
-        }
-      });
+      const products: IProduct[] = await productBusiness.retrieve();
+      res.json({ products });
     } catch (error) {
-      console.error("Error retrieving product", error);
-      res.status(400).json({ message: "ERROR_RETRIEVING[product]", error });
+      next({
+        message: `Error retrieving products: ${error.message}`,
+        code: 500
+      });
     }
   }
 
-  public findById(req: Request, res: Response): void {
+  public async findById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
-      const _id: string = req.params.id;
+      const {
+        params: { id }
+      } = req;
       const productBusiness = new ProductBusiness();
-      productBusiness.findById(_id, (error, result) => {
-        if (error) {
-          return res
-            .status(500)
-            .json({ message: "ERROR_GETTING[product]", error });
-        }
-        if (!result) {
-          return res.status(404).json({
-            message: "NOT_FOUND[product]",
-            error: new Error("product not found")
-          });
-        }
-        res.json({ product: result });
-      });
+      const product = await productBusiness.findById(id);
+      if (!product) {
+        next({ message: 'Product not found', code: 404 });
+      } else {
+        res.status(201).json({ product });
+      }
+      res.json({ product });
     } catch (error) {
-      console.error("Error getting product", error);
-      res.status(400).json({ message: "ERROR_GETTING[product]", error });
+      next({ message: `Error getting product: ${error.message}`, code: 500 });
     }
   }
+
+  public productFieldsValidator(req: Request, res: Response, next): void {}
+
+  public productExistsValidator = param('id')
+    .exists()
+    .withMessage('Param id is not provided')
+    .isMongoId()
+    .withMessage('Specified param Id is invalid, must be ObjectId')
+    .custom(async value => {
+      const productBusiness = new ProductBusiness();
+      if (!Types.ObjectId.isValid(value)) return true;
+      if (!(await productBusiness.findById(value))) {
+        throw new Error('Product with id ${value} not found in collection');
+      } else {
+        return true;
+      }
+    });
 }

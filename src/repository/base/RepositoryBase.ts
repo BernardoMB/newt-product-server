@@ -1,39 +1,36 @@
-import { ObjectId } from 'bson';
 import { Document, Model, Types } from 'mongoose';
 
 import { IWrite } from '../interfaces/base/Write';
 import { IRead } from '../interfaces/base/Read';
 
 export class RepositoryBase<T extends Document> implements IRead<T>, IWrite<T> {
+  protected _model: Model<Document>;
 
-    protected _model: Model<Document>;
+  constructor(schemaModel: Model<Document>) {
+    this._model = schemaModel;
+  }
 
-    constructor (schemaModel: Model<Document>) {
-        this._model = schemaModel;
-    }
+  async create(item: T): Promise<Document> {
+    return await this._model.create(item);
+  }
 
-    create (item: T, callback: (error: any, result: T) => void) {
-        this._model.create(item, callback);
-    }
+  async retrieve(): Promise<Document[]> {
+    return await this._model.find({}).exec();
+  }
 
-    retrieve (callback: (error: any, result: Array<T>) => void) {
-            this._model.find({}, callback)
-    }
+  async update(_id: string, item: T) {
+    return await this._model.update({ _id }, item, { new: true }).exec();
+  }
 
-    update (_id: string, item: T, callback: (error: any, result: T) => void) {
-            this._model.update({_id }, item, callback);
-    }
+  async delete(_id: string) {
+    return await this._model.remove({ _id: this.toObjectId(_id) }).exec();
+  }
 
-    delete (_id: string, callback: (error: any, result: string) => void) {
-        this._model.remove({_id: this.toObjectId(_id)}, (err) => callback(err, _id));
-    }
+  async findById(_id: string) {
+    return await this._model.findById(_id).exec();
+  }
 
-    findById (_id: string, callback: (error: any, result: T) => void) {
-        this._model.findById( _id, callback);
-    }
-
-    private toObjectId (_id: string): Types.ObjectId {
-        return Types.ObjectId.createFromHexString(_id)
-    }
-
+  private toObjectId(_id: string): Types.ObjectId {
+    return Types.ObjectId.createFromHexString(_id);
+  }
 }

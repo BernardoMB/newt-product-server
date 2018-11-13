@@ -1,6 +1,9 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import { ProductController } from "../controllers/ProductController";
+import { ObjectIdValidator } from './middlewares/IdValidator';
+
+import { ProductController } from '../controllers/ProductController';
+import { validateRequest } from './middlewares/RequestValidator';
 
 const router = Router();
 
@@ -11,13 +14,18 @@ export class ProductRoutes {
     this._productController = new ProductController();
   }
 
-  get routes(): Router {
+  routes(): Router {
     const controller = this._productController;
-    router.get("", controller.retrieve);
-    router.post("", controller.create);
-    router.put("/:id", controller.update);
-    router.get("/:id", controller.findById);
-    router.delete("/:id", controller.delete);
+    router.get('', validateRequest, controller.retrieve);
+    router.post('', validateRequest, controller.create);
+    router.put('/:id', ObjectIdValidator, validateRequest, controller.update);
+    router.get('/:id', ObjectIdValidator, validateRequest, controller.findById);
+    router.delete(
+      '/:id',
+      controller.productExistsValidator,
+      validateRequest,
+      controller.delete
+    );
     return router;
   }
 }

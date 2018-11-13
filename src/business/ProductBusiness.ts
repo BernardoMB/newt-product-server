@@ -1,6 +1,7 @@
-import { IProduct } from "../models/interfaces/IProduct";
-import { ProductRepository } from "../repository/ProductRepository";
-import { IProductBusiness } from "./interfaces/IProductBusiness";
+import { IProduct } from '../models/interfaces/IProduct';
+import { ProductRepository } from '../repository/ProductRepository';
+import { IProductBusiness } from './interfaces/IProductBusiness';
+import { Document } from 'mongoose';
 
 export class ProductBusiness implements IProductBusiness {
   private _productRepository: ProductRepository;
@@ -9,33 +10,30 @@ export class ProductBusiness implements IProductBusiness {
     this._productRepository = new ProductRepository();
   }
 
-  retrieve(callback: (error: any, result: Array<IProduct>) => void) {
-    this._productRepository.retrieve(callback);
+  async retrieve(): Promise<IProduct[]> {
+    return await (<Promise<IProduct[]>>this._productRepository.retrieve());
   }
 
-  findById(_id: string, callback: (error: any, result: IProduct) => void) {
-    this._productRepository.findById(_id, callback);
+  async findById(_id: string): Promise<IProduct> {
+    return await (<Promise<IProduct>>this._productRepository.findById(_id));
   }
 
-  create(item: IProduct, callback: (error: any, result: IProduct) => void) {
-    this._productRepository.create(item, callback);
+  async create(item: IProduct): Promise<IProduct> {
+    return await (<Promise<IProduct>>this._productRepository.create(item));
   }
 
-  update(
-    _id: string,
-    item: IProduct,
-    callback: (error: any, result: IProduct) => void
-  ) {
-    this._productRepository.findById(_id, (err, res) => {
-      if (err || !res) {
-        callback(err, res);
-      } else {
-        this._productRepository.update(<any>res._id, item, callback);
-      }
-    });
+  async update(_id: string, item: IProduct): Promise<IProduct> {
+    let res: Document;
+    res = await this._productRepository.findById(_id);
+    if (!res) {
+      return undefined;
+    }
+    return await (<Promise<IProduct>>(
+      this._productRepository.update(<any>res._id, item)
+    ));
   }
 
-  delete(_id: string, callback: (error: any, result: any) => void) {
-    this._productRepository.delete(_id, callback);
+  async delete(_id: string): Promise<any> {
+    return await this._productRepository.delete(_id);
   }
 }

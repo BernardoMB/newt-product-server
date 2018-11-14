@@ -20,6 +20,7 @@ export class Api {
     app.use(expressValidator());
     //Application routes
     app.use('/api/product', new ProductRoutes().routes());
+    //Middleware to handle all error messages
     app.use(ErrorHandler);
   }
 }

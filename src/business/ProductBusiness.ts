@@ -33,7 +33,8 @@ export class ProductBusiness implements IProductBusiness {
     ));
   }
 
-  async delete(_id: string): Promise<any> {
-    return await this._productRepository.delete(_id);
+  async delete(_id: string): Promise<boolean> {
+    return !!(await this._productRepository.delete(_id));
+    //return await this._productRepository.delete(_id);
   }
 }

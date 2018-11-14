@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { ObjectIdValidator } from './middlewares/IdValidator';
 
 import { ProductController } from '../controllers/ProductController';
-import { validateRequest } from './middlewares/RequestValidator';
+import RequestValidator from './middlewares/RequestValidator';
 
 const router = Router();
 
@@ -16,14 +16,21 @@ export class ProductRoutes {
 
   routes(): Router {
     const controller = this._productController;
-    router.get('', validateRequest, controller.retrieve);
-    router.post('', validateRequest, controller.create);
-    router.put('/:id', ObjectIdValidator, validateRequest, controller.update);
-    router.get('/:id', ObjectIdValidator, validateRequest, controller.findById);
+    router.get('', RequestValidator.validateWith([]), controller.retrieve);
+    router.post('', RequestValidator.validateWith([]), controller.create);
+    router.put(
+      '/:id',
+      RequestValidator.validateWith([ObjectIdValidator]),
+      controller.update
+    );
+    router.get(
+      '/:id',
+      RequestValidator.validateWith([ObjectIdValidator]),
+      controller.findById
+    );
     router.delete(
       '/:id',
-      controller.productExistsValidator,
-      validateRequest,
+      RequestValidator.validateWith([ObjectIdValidator]),
       controller.delete
     );
     return router;

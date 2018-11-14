@@ -59,8 +59,14 @@ export class ProductController implements IBaseController<ProductBusiness> {
         params: { id }
       } = req;
       const productBusiness = new ProductBusiness();
-      await productBusiness.delete(id);
-      res.json({ id });
+      if (await productBusiness.delete(id)) {
+        res.json({ id });
+        return;
+      }
+      next({
+        message: `Error deleting product: product not found`,
+        code: 404
+      });
     } catch (error) {
       next({
         message: `Error deleting product: ${error.message}`,

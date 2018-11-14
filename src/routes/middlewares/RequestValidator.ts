@@ -1,4 +1,10 @@
-import { validationResult } from 'express-validator/check';
+import { validationResult, ValidationChain } from 'express-validator/check';
+import { RequestHandler } from 'express';
+export default class RequestValidator {
+  public static validateWith(arr: ValidationChain[]): RequestHandler[] {
+    return [...arr, validateRequest];
+  }
+}
 
 export function validateRequest(req, res, next): void {
   if (!validationResult(req).isEmpty()) {

@@ -1,17 +1,19 @@
 import * as express from 'express';
 import { Db } from './src/data-access/config';
 import { Api } from './src/routes/base/Api';
-const db = new Db(false);
+import { environment } from './src/environment';
 
-const PORT = process.env.PORT || 3000;
+const db = new Db(false);
 const app = express();
 
 //Connect to the mongodb database
 db.connect().then(() => {
   //Initialize all API routes
   Api.initialize(app);
-
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  //Get environment variables
+  const { port } = environment;
+  app.listen(port, () => {
+    console.log(`Server running on port \x1b[34m${port}`);
   });
 });
+export default app;

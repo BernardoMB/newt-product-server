@@ -9,15 +9,17 @@ export default class RequestValidator {
 export function validateRequest(req, res, next): void {
   if (!validationResult(req).isEmpty()) {
     const errors = validationResult(req)
-      .array()
+      .array({ onlyFirstError: true })
       .map(
         (err: any) =>
-          `${err.location}[${err.param}] - ${err.value} | ${err.msg}`
+          `${err.location}[${err.param}] = ${err.value} | ${err.msg}`
       );
     next({
-      message: 'Invalid request: one or more errors occured',
+      message: `Invalid request: ${errors.length} error${
+        errors.length > 1 ? 's' : ''
+      } occured`,
       errors,
-      code: 400
+      code: 422
     });
   } else {
     next();

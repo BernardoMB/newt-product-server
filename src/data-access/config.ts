@@ -1,13 +1,6 @@
 import * as Mongoose from 'mongoose';
 
-let DB_NAME;
-if (process.env.NODE_ENV !== 'production') {
-  //Local Database
-  DB_NAME = 'mongodb://localhost/newt';
-} else {
-  //MLab Hosted Database
-  DB_NAME = process.env.MLAB;
-}
+import { environment } from '../environment';
 
 export class Db {
   private auth: boolean;
@@ -17,32 +10,34 @@ export class Db {
     (<any>Mongoose).Promise = global.Promise;
   }
 
-  //method for connecting to the DB via mongoose
+  //Connect to the mongodb database corresponding to the current environment
   async connect() {
     try {
+      const { db } = environment;
       if (this.auth) {
         await Mongoose.connect(
-          DB_NAME,
+          db,
           { useNewUrlParser: true, user: 'newt', pass: 'mimaamakim' }
         );
       } else {
         await Mongoose.connect(
-          DB_NAME,
+          db,
           { useNewUrlParser: true }
         );
       }
-      console.log(`Connected to db: ${DB_NAME}`);
+      console.log(`Connected to db: \x1b[34m${db}`);
     } catch (e) {
-      console.error(`Error connecting to db: ${e}`);
+      console.error(`Error connecting to db: \x1b[31m${e}`);
     }
   }
-
+  //Disconnect from the mongodb database
   async disconnect() {
     try {
+      const { db } = environment;
       await Mongoose.connection.close();
-      console.log(`Disconnected from db: ${DB_NAME}`);
+      console.log(`Disconnected from db: ${db}`);
     } catch (e) {
-      console.error(`Error disconnecting from db: ${e}`);
+      console.error(`Error disconnecting from db: \x1b[31m${e}`);
     }
   }
 }

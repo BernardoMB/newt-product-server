@@ -5,9 +5,11 @@ export const ErrorHandler: ErrorRequestHandler = (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
-  const message = `(${req.method}) ${req.originalUrl} | ${error.message}`;
-  console.error(message);
+) => {
+  const message = `\x1b[31m(${req.method}) ${req.originalUrl} | \x1b[31m${
+    error.message
+  }`;
+  console.error('\x1b[31m', message);
   if (!!error.errors) console.table(error.errors);
   res.status(error.code).json({
     ...error,

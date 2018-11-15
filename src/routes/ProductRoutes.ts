@@ -17,10 +17,17 @@ export class ProductRoutes {
   routes(): Router {
     const controller = this._productController;
     router.get('', RequestValidator.validateWith([]), controller.retrieve);
-    router.post('', RequestValidator.validateWith([]), controller.create);
+    router.post(
+      '',
+      RequestValidator.validateWith(controller.productFieldsValidator),
+      controller.create
+    );
     router.put(
       '/:id',
-      RequestValidator.validateWith([ObjectIdValidator]),
+      RequestValidator.validateWith([
+        ObjectIdValidator,
+        ...controller.productFieldsValidator
+      ]),
       controller.update
     );
     router.get(

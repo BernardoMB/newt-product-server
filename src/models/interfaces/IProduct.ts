@@ -1,4 +1,4 @@
-import * as mongoose from "mongoose";
+import * as mongoose from 'mongoose';
 
 export interface IProduct extends mongoose.Document {
   name: string;
@@ -12,5 +12,5 @@ export interface IProduct extends mongoose.Document {
   timeout: number;
   supportsReversal: boolean;
   supportsCheckStatus: boolean;
-  observation: string;
+  observation?: string;
 }

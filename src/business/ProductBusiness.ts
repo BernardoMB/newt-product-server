@@ -15,7 +15,9 @@ export class ProductBusiness implements IProductBusiness {
   }
 
   async findById(_id: string): Promise<IProduct> {
-    return await (<Promise<IProduct>>this._productRepository.findById(_id));
+    const res = <IProduct>await this._productRepository.findById(_id);
+    this.throwIfNotExists(res);
+    return res;
   }
 
   async create(item: IProduct): Promise<IProduct> {
@@ -23,18 +25,20 @@ export class ProductBusiness implements IProductBusiness {
   }
 
   async update(_id: string, item: IProduct): Promise<IProduct> {
-    let res: Document;
-    res = await this._productRepository.findById(_id);
-    if (!res) {
-      return undefined;
-    }
+    const res = await this._productRepository.findById(_id);
+    this.throwIfNotExists(res);
     return await (<Promise<IProduct>>(
       this._productRepository.update(<any>res._id, item)
     ));
   }
 
   async delete(_id: string): Promise<boolean> {
-    return !!(await this._productRepository.delete(_id));
+    this.throwIfNotExists(await this._productRepository.delete(_id));
+    return true;
     //return await this._productRepository.delete(_id);
+  }
+
+  private throwIfNotExists(item: Document) {
+    if (!item) throw { message: 'Product not found', code: 404 };
   }
 }

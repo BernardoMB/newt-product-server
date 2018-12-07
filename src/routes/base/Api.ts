@@ -4,7 +4,7 @@ import * as morgan from 'morgan';
 import * as bodyParser from 'body-parser';
 import * as expressValidator from 'express-validator';
 
-import { ErrorHandler } from '../middlewares/ErrorHandler';
+import { ErrorHandler } from '../middlewares/handlers/ErrorHandler';
 import { ProductRoutes } from '../ProductRoutes';
 
 export class Api {

@@ -1,9 +1,11 @@
 import { Router } from 'express';
-
-import { ObjectIdValidator } from './middlewares/IdValidator';
-
+//Controllers
 import { ProductController } from '../controllers/ProductController';
-import RequestValidator from './middlewares/RequestValidator';
+
+//Validators
+import { ObjectIdValidator } from './middlewares/validators/IdValidator';
+import { productFieldsValidator } from './middlewares/validators/ProductValidator';
+import RequestValidator from './middlewares/validators/RequestValidator';
 
 const router = Router();
 
@@ -19,14 +21,14 @@ export class ProductRoutes {
     router.get('', RequestValidator.validateWith([]), controller.retrieve);
     router.post(
       '',
-      RequestValidator.validateWith(controller.productFieldsValidator),
+      RequestValidator.validateWith(productFieldsValidator),
       controller.create
     );
     router.put(
       '/:id',
       RequestValidator.validateWith([
         ObjectIdValidator,
-        ...controller.productFieldsValidator
+        ...productFieldsValidator
       ]),
       controller.update
     );

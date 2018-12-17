@@ -9,7 +9,7 @@ export interface IPurchase extends Document {
   createdAt: Date;
   updatedAt: Date;
   amount: number;
-  confirmationNumber: number;
+  confirmationNumber?: number;
   comment?: string;
   extra?: any;
   statusLog: [{ updatedAt: Date; code: number; message: string; extra?: any }];

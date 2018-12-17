@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { handleError } from './helps/handle-error';
-import { INewPurchase } from '../models/interfaces/IPurchase';
+import { INewPurchase, IPurchase } from '../models/interfaces/IPurchase';
+import { PurchaseBusiness } from '../business/PurchaseBusiness';
 
 export class PurchaseController  {
     
@@ -11,8 +12,8 @@ export class PurchaseController  {
     ): Promise<void> {
       try {
         const newPurchase: INewPurchase = <INewPurchase>req.body;
-        const purchaseBusiness = new ProductBusiness();
-        const result: IProduct = await productBusiness.create(product);
+        const purchaseBusiness = new PurchaseBusiness();        
+        const result: IPurchase = await purchaseBusiness.create(newPurchase);
         res.json({ product: result });
       } catch (error) {
         handleError(error, 'Error creating purchase', next);

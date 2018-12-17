@@ -6,8 +6,8 @@ export interface IPurchase extends Document {
   user: string;
   destination: string;
   status: PurchaseStatus;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   amount: number;
   confirmationNumber?: number;
   comment?: string;

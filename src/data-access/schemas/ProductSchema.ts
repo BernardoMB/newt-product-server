@@ -35,6 +35,6 @@ const schema: Schema = new Schema({
 });
 
 export const ProductSchema: Model<IProduct> = model<IProduct>(
-  'product',
+  'Product',
   schema
 );

@@ -1,6 +1,7 @@
 import { Model, model, Schema } from 'mongoose';
 
 import { IPurchase } from '../../models/interfaces/IPurchase';
+import { paddNum } from '../../helpers/formatHelpers';
 
 const status = {
   updatedAt: { type: Date, required: true },
@@ -13,7 +14,8 @@ const status = {
 const schema: Schema = new Schema(
   {
     product: { type: String, required: true },
-    user: { type: Schema.Types.ObjectId, ref: 'user' },
+    externalId: { type : String, required: false },
+    user: { type: Schema.Types.ObjectId, ref: 'User' },
     destination: { type: String, required: true },
     status: { type: Number, required: true },
     amount: { type: Number, required: true },
@@ -27,7 +29,18 @@ const schema: Schema = new Schema(
   }
 );
 
+schema.pre('save', function(newt) {
+  var self : any = this;
+  self.constructor.count(function(err, data) {
+    if(err){
+       return newt(err);
+    }
+    self.externalId = paddNum(12, data + 1);
+    return newt();
+  });
+})
+
 export const PurchaseSchema: Model<IPurchase> = model<IPurchase>(
-  'purchase',
+  'Purchase',
   schema
 );

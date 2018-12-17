@@ -6,6 +6,7 @@ import * as expressValidator from 'express-validator';
 
 import { ErrorHandler } from '../middlewares/handlers/ErrorHandler';
 import { ProductRoutes } from '../ProductRoutes';
+import { PurchaseRoutes } from '../PurchaseRoutes';
 
 export class Api {
   //Global route handling for when matching the desired address
@@ -20,6 +21,7 @@ export class Api {
     app.use(expressValidator());
     //Application routes
     app.use('/api/product', new ProductRoutes().routes());
+    app.use('/api/purchase', new PurchaseRoutes().routes());
     //Middleware to handle all error messages
     app.use(ErrorHandler);
   }

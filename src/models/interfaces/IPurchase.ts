@@ -3,16 +3,16 @@ import { PurchaseStatus } from '../enums/PurchaseStatus';
 
 export interface IPurchaseStatus {
   updatedAt: Date;
-  code: number;
+  code: PurchaseStatus;
   message: string;
   extra?: any;
 }
 
 export interface IPurchase extends Document {
+  externalId: string;
   product: string;
   user: string;
   destination: string;
-  status: PurchaseStatus;
   createdAt?: Date;
   updatedAt?: Date;
   amount: number;

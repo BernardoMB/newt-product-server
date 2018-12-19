@@ -3,9 +3,9 @@ import { Router } from 'express';
 import { PurchaseController } from '../controllers/PurchaseController';
 
 //Validators
-// import { ObjectIdValidator } from './middlewares/validators/IdValidator';
-// import { productFieldsValidator } from './middlewares/validators/ProductValidator';
-// import RequestValidator from './middlewares/validators/RequestValidator';
+import { ObjectIdValidator } from './middlewares/validators/IdValidator';
+import { newPurchaseFieldsValidator, externalIdValidator } from './middlewares/validators/PurchaseValidator';
+import RequestValidator from './middlewares/validators/RequestValidator';
 
 const router = Router();
 
@@ -19,10 +19,14 @@ export class PurchaseRoutes {
   routes(): Router {
     const controller = this._purchaseController;
     //router.get('', RequestValidator.validateWith([]), controller.retrieve);
-    router.post(
-      '',
-      controller.create
+    router.post('', RequestValidator.validateWith(newPurchaseFieldsValidator), controller.create);
+    router.get('/user/:id', RequestValidator.validateWith([ObjectIdValidator]), controller.retrieveByClientId);
+    router.get(
+      '/externalId/:externalId',
+      RequestValidator.validateWith([externalIdValidator]),
+      controller.findByExternalId
     );
+    router.get('/:id', RequestValidator.validateWith([ObjectIdValidator]), controller.findById);
     return router;
   }
 }

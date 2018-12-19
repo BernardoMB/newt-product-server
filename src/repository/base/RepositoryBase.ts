@@ -56,6 +56,34 @@ export class RepositoryBase<T extends Document> implements IRead<T>, IWrite<T> {
     return await this._model.findById(_id).exec();
   }
 
+  async find(
+    conditions: any,
+    projections?: string,
+    options?: any
+  ): Promise<Document[]> {
+    if (!!projections && !options) {
+      return await this._model.find(conditions, projections).exec();
+    }
+    if (!!projections && !!options) {
+      return await this._model.find(conditions, projections, options).exec();
+    }
+    return await this._model.find(conditions).exec();
+  }
+
+  async findOne(
+    conditions: any,
+    projections?: string,
+    options?: any
+  ): Promise<Document> {
+    if (!!projections && !options) {
+      return await this._model.findOne(conditions, projections).exec();
+    }
+    if (!!projections && !!options) {
+      return await this._model.findOne(conditions, projections, options).exec();
+    }
+    return await this._model.findOne(conditions).exec();
+  }
+
   private toObjectId(_id: string): Types.ObjectId {
     return Types.ObjectId.createFromHexString(_id);
   }

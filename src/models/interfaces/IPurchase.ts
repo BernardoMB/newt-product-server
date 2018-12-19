@@ -29,3 +29,12 @@ export interface INewPurchase {
   destination: string;
   comment?: string;
 }
+
+export interface IPurchaseInfo {
+  id: string;
+  terminalNo: string;
+  productId: string;
+  destination: number;
+  amount: number;
+  extra?: any;
+}

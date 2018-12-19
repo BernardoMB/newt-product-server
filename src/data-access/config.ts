@@ -25,9 +25,9 @@ export class Db {
           { useNewUrlParser: true }
         );
       }
-      console.log(`Connected to db: \x1b[34m${db}`);
+      console.log(`Connected to db: \x1b[34m${db}\x1b[0m`);
     } catch (e) {
-      console.error(`Error connecting to db: \x1b[31m${e}`);
+      console.error(`Error connecting to db: \x1b[31m${e}\x1b[0m`);
     }
   }
   //Disconnect from the mongodb database
@@ -35,9 +35,9 @@ export class Db {
     try {
       const { db } = environment;
       await Mongoose.connection.close();
-      console.log(`Disconnected from db: ${db}`);
+      console.log(`Disconnected from db: \x1b[34m${db}\x1b[0m`);
     } catch (e) {
-      console.error(`Error disconnecting from db: \x1b[31m${e}`);
+      console.error(`Error disconnecting from db: \x1b[31m${e}\x1b[0m`);
     }
   }
 }

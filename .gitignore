@@ -6,6 +6,10 @@ node_modules
 .classpath
 *.launch
 .settings/
+#secrets
+/src/secrets/development.ts
+/src/secrets/production.ts
+/src/secrets/test.ts
 #System Files
 .DS_Store
 Thumbs.db

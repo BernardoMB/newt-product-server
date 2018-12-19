@@ -19,29 +19,14 @@ export class ProductRoutes {
   routes(): Router {
     const controller = this._productController;
     router.get('', RequestValidator.validateWith([]), controller.retrieve);
-    router.post(
-      '',
-      RequestValidator.validateWith(productFieldsValidator),
-      controller.create
-    );
+    router.post('', RequestValidator.validateWith(productFieldsValidator), controller.create);
     router.put(
       '/:id',
-      RequestValidator.validateWith([
-        ObjectIdValidator,
-        ...productFieldsValidator
-      ]),
+      RequestValidator.validateWith([ObjectIdValidator, ...productFieldsValidator]),
       controller.update
     );
-    router.get(
-      '/:id',
-      RequestValidator.validateWith([ObjectIdValidator]),
-      controller.findById
-    );
-    router.delete(
-      '/:id',
-      RequestValidator.validateWith([ObjectIdValidator]),
-      controller.delete
-    );
+    router.get('/:id', RequestValidator.validateWith([ObjectIdValidator]), controller.findById);
+    router.delete('/:id', RequestValidator.validateWith([ObjectIdValidator]), controller.delete);
     return router;
   }
 }

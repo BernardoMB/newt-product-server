@@ -2,5 +2,6 @@ export enum PurchaseStatus {
   Pending = 0,
   Approved = 1,
   Reverted = 2,
-  Revision = 3
+  Failed = 3,
+  Revision = 4
 }

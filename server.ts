@@ -13,7 +13,7 @@ db.connect().then(() => {
   //Get environment variables
   const { port } = environment;
   app.listen(port, () => {
-    console.log(`Server running on port \x1b[34m${port}`);
+    console.log(`Server running on port \x1b[34m${port}\x1b[0m`);
   });
 });
 export default app;

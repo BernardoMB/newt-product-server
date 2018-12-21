@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/0ec7440d-00ed-49a1-82df-7d4b69f58fdc/resourceGroups/Newt-MX/providers/Microsoft.Web/sites/newt-mx-rest-api",
+    "appService.deploySubpath": ""
+}

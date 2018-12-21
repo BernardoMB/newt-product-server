@@ -6,6 +6,8 @@ node_modules
 .classpath
 *.launch
 .settings/
+#documentation
+documentation/
 #secrets
 /src/secrets/development.ts
 /src/secrets/production.ts

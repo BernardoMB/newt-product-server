@@ -1,6 +1,6 @@
 {
   "name": "newt-mx-rest-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The Newt API to connect with third party product providers",
   "main": "server.ts",
   "scripts": {

@@ -1,5 +1,42 @@
 import { checkSchema } from 'express-validator/check';
 
+/**
+ * @apiDefine ProductFieldsError
+ *
+ * @apiError (422) ProductFieldsInvalid The fields for the product payload are missing or incorrect.
+ *
+ * @apiErrorExample {json} ProductFieldsInvalid (1):
+ * HTTP/1.1 422 Unprocessable Entity
+ * {
+ *     "message": "(POST) /api/product | Invalid request: 8 errors occured",
+ *     "errors": [
+ *         "body[name] = undefined | Name field must be present",
+ *         "body[code] = undefined | Product code field must be present",
+ *         "body[amounts] = undefined | Must be an array of {amount(number), description(string)}",
+ *         "body[providerId] = undefined | A provider id must be included",
+ *         "body[paymentCurrency] = undefined | A valid currency must be specified",
+ *         "body[timeout] = undefined | A timeout must be specified",
+ *         "body[supportsReversal] = undefined | SupportsReversal field must be included",
+ *         "body[supportsCheckStatus] = undefined | SupportsCheckStatus field must be included"
+ *     ],
+ *     "code": 422
+ * }
+ * @apiErrorExample {json} ProductFieldsInvalid (2):
+ * HTTP/1.1 422 Unprocessable Entity
+ * {
+ *    "message": "(POST) /api/product | Invalid request: 7 errors occured",
+ *    "errors": [
+ *        "body[code] = 0 | Product code field must be a valid non whitespace string",
+ *        "body[kind] = 55 | Product kind must be an int: 0, 1 or 2",
+ *        "body[amounts[0].amount] = -1 | Amount must be a valid, positive number: e.g. 25,000 or 256.78",
+ *        "body[providerId] = undefined | A provider id must be included",
+ *        "body[paymentCurrency] = Wrong | PaymentCurrency field must be uppercase",
+ *        "body[timeout] = -1 | Timeout field must be a positive integer",
+ *        "body[observation] = 0 | Oservation field must be a valid string"
+ *    ],
+ *    "code": 422
+ * }
+ */
 export const productFieldsValidator = checkSchema({
   name: {
     in: ['body'],
@@ -25,7 +62,7 @@ export const productFieldsValidator = checkSchema({
     in: ['body'],
     optional: true,
     isInt: {
-      errorMessage: 'Product kind must be an int',
+      errorMessage: 'Product kind must be an int 0, 1 or 2',
       options: {
         min: 0,
         max: 2
@@ -40,8 +77,7 @@ export const productFieldsValidator = checkSchema({
   },
   'amounts.*.amount': {
     in: ['body'],
-    errorMessage:
-      'Amount must be a valid, positive number: e.g. 25,000 or 256.78',
+    errorMessage: 'Amount must be a valid, positive number: e.g. 25,000 or 256.78',
     isCurrency: {
       options: {
         allow_negatives: false
@@ -67,8 +103,7 @@ export const productFieldsValidator = checkSchema({
   },
   paymentCurrency: {
     in: ['body'],
-    errorMessage:
-      'PaymentCurrency field must be a valid number, e.g "MXN", "USD", "CAD"',
+    errorMessage: 'PaymentCurrency field must be a valid number, e.g "MXN", "USD", "CAD"',
     exists: {
       errorMessage: 'A valid currency must be specified'
     },

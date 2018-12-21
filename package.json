@@ -1,14 +1,22 @@
 {
-  "name": "nvintegration",
+  "name": "newt-mx-rest-api",
   "version": "1.0.0",
   "description": "The Newt API to connect with third party product providers",
   "main": "server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node ./server.ts"
+    "start": "ts-node ./server.ts",
+    "generate-documentation": "apidoc -i src/ -o documentation/",
+    "generate-full-documentation": "apidoc -i src/ -o documentation/ --private true",
+    "serve-documentation": "lite-server --baseDir=\"documentation\""
   },
   "author": "Newt Mexico",
   "license": "ISC",
+  "apidoc": {
+    "title": "NewtMX API Spec",
+    "url": "https://newt-mx-rest-api.azurewebsites.net",
+    "sampleUrl": "https://newt-mx-rest-api.azurewebsites.net"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
@@ -34,7 +42,9 @@
     "@types/morgan": "^1.7.35",
     "@types/node": "^10.12.1",
     "@types/xml2js": "^0.4.3",
+    "apidoc": "^0.17.7",
     "chai": "^4.2.0",
+    "lite-server": "^2.4.0",
     "mocha": "^5.2.0",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.5",

@@ -27,9 +27,7 @@ export class ProductBusiness implements IProductBusiness {
   async update(_id: string, item: IProduct): Promise<IProduct> {
     const res = await this._productRepository.findById(_id);
     this.throwIfNotExists(res);
-    return await (<Promise<IProduct>>(
-      this._productRepository.update(<any>res._id, item)
-    ));
+    return await (<Promise<IProduct>>this._productRepository.update(<any>res._id, item));
   }
 
   async delete(_id: string): Promise<boolean> {
@@ -38,6 +36,18 @@ export class ProductBusiness implements IProductBusiness {
     //return await this._productRepository.delete(_id);
   }
 
+  /**
+   * @apiDefine ProductNotFoundError
+   *
+   * @apiError (404) ProductNotFound No product with the <code>id</code> could be found.
+   *
+   * @apiErrorExample {json} ProductNotFound:
+   * HTTP/1.1 404 Not Found
+   * {
+   *   "message": "(PUT) /api/product/5beb714fdf45f6e56009a24b |  Error updating product: Product not found",
+   *   "code": 404
+   * }
+   */
   private throwIfNotExists(item: Document) {
     if (!item) throw { message: 'Product not found', code: 404 };
   }

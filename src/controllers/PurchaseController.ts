@@ -7,7 +7,6 @@ import { PurchaseBusiness } from '../business/PurchaseBusiness';
 export class PurchaseController implements IBaseController<PurchaseBusiness> {
   /**
    * @api {post} /api/purchase CREATE
-   * @apiPrivate
    * @apiName CreatePurchase
    * @apiGroup Purchase
    *

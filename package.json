@@ -5,8 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "npm run generate-documentation",
     "start": "ts-node ./server.ts",
-    "postinstall": "npm run generate-documentation",
     "generate-documentation": "apidoc -i src/ -o documentation/",
     "generate-full-documentation": "apidoc -i src/ -o documentation/ --private true",
     "serve-documentation": "lite-server --baseDir=\"documentation\""

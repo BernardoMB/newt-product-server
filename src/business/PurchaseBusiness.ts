@@ -82,7 +82,7 @@ export class PurchaseBusiness implements IPurchaseBusiness {
     let purchase = <IPurchase>await this._purchaseRepository.create(p);
     const purchaseInfo: IPurchaseInfo = {
       id: purchase.externalId,
-      destination: parseInt(purchase.destination),
+      destination: purchase.destination,
       productId: product.code,
       terminalNo: '0',
       amount: purchase.amount,
@@ -90,7 +90,6 @@ export class PurchaseBusiness implements IPurchaseBusiness {
     };
     try {
       const response = await doSale(this._credentials, purchaseInfo);
-      console.log(response);
       purchase = await this.updateStatus(purchase.id, {
         updatedAt: new Date(),
         code: PurchaseStatus.Approved,

@@ -14,18 +14,20 @@ export class Db {
   async connect() {
     try {
       const { db } = environment;
+      let connection: typeof Mongoose;
       if (this.auth) {
-        await Mongoose.connect(
+        connection = await Mongoose.connect(
           db,
-          { useNewUrlParser: true, user: 'newt', pass: 'mimaamakim' }
+          { useNewUrlParser: true, useFindAndModify: false, user: 'newt', pass: 'mimaamakim' }
         );
       } else {
-        await Mongoose.connect(
+        connection = await Mongoose.connect(
           db,
-          { useNewUrlParser: true }
+          { useNewUrlParser: true, useFindAndModify: false }
         );
       }
       console.log(`Connected to db: \x1b[34m${db}\x1b[0m`);
+      return connection;
     } catch (e) {
       console.error(`Error connecting to db: \x1b[31m${e}\x1b[0m`);
     }

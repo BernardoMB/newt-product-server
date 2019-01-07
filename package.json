@@ -4,9 +4,9 @@
   "description": "The Newt API to connect with third party product providers",
   "main": "server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node ./server.ts",
     "postinstall": "npm run generate-documentation",
+    "test": "cross-env NODE_ENV=test mocha -r ts-node/register src/test/**/*.ts",
     "generate-documentation": "apidoc -i src/ -o documentation/",
     "generate-full-documentation": "apidoc -i src/ -o documentation/ --private true",
     "serve-documentation": "lite-server --baseDir=\"documentation\""
@@ -42,13 +42,16 @@
     "@types/mongoose": "^5.2.22",
     "@types/morgan": "^1.7.35",
     "@types/node": "^10.12.1",
+    "@types/supertest": "^2.0.7",
     "@types/xml2js": "^0.4.3",
     "apidoc": "^0.17.7",
     "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
     "lite-server": "^2.4.0",
     "mocha": "^5.2.0",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.5",
+    "supertest": "^3.3.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "typescript": "^3.1.5"

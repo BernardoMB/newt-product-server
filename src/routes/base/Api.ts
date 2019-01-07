@@ -9,6 +9,7 @@ import { ErrorHandler } from '../middlewares/handlers/ErrorHandler';
 import { ProductRoutes } from '../ProductRoutes';
 import { PurchaseRoutes } from '../PurchaseRoutes';
 import { BalanceRoutes } from '../BalanceRoutes';
+import { environment } from '../../environment';
 
 const DOC_PATH = join(__dirname, '../../../documentation');
 
@@ -23,7 +24,7 @@ export class Api {
     app.use(express.static(DOC_PATH));
     app.get('/docs', (req, res) => res.sendFile(`${DOC_PATH}/index.html`));
     //Log incomming requests
-    app.use(morgan('dev'));
+    if (environment.env !== 'test') app.use(morgan('dev'));
     //Validator middleware
     app.use(expressValidator());
     //Application routes

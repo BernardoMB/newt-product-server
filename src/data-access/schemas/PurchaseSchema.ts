@@ -30,7 +30,7 @@ const schema: Schema = new Schema(
 
 schema.pre('save', function(newt) {
   var self: any = this;
-  self.constructor.count(function(err, data) {
+  self.constructor.countDocuments(function(err, data) {
     if (err) {
       return newt(err);
     }
@@ -39,7 +39,4 @@ schema.pre('save', function(newt) {
   });
 });
 
-export const PurchaseSchema: Model<IPurchase> = model<IPurchase>(
-  'Purchase',
-  schema
-);
+export const PurchaseSchema: Model<IPurchase> = model<IPurchase>('Purchase', schema);

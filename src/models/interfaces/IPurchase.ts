@@ -34,7 +34,7 @@ export interface IPurchaseInfo {
   id: string;
   terminalNo: string;
   productId: string;
-  destination: number;
+  destination: string;
   amount: number;
   extra?: any;
 }

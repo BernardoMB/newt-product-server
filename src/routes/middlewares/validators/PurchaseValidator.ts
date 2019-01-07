@@ -52,12 +52,9 @@ export const newPurchaseFieldsValidator = checkSchema({
   },
   destination: {
     in: ['body'],
-    errorMessage: 'Must be a valid positive number',
-    isInt: {
-      options: {
-        gt: 0
-      }
-    }
+    errorMessage: 'Must be a valid string identifier',
+    isString: true,
+    trim: true
   },
   amount: {
     in: ['body'],

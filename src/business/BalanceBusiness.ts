@@ -1,7 +1,6 @@
 import { credentials } from '../secrets';
 
 import { IBalanceBusiness } from './interfaces/IBalanceBusiness';
-
 import { getBalance } from '../services/BalanceService';
 
 import { ICredentials } from '../models/interfaces/ICredentials';

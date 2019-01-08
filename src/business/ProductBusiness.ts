@@ -35,18 +35,6 @@ export class ProductBusiness implements IProductBusiness {
     return true;
   }
 
-  /**
-   * @apiDefine ProductNotFoundError
-   *
-   * @apiError (404) ProductNotFound No product with the <code>id</code> could be found.
-   *
-   * @apiErrorExample {json} ProductNotFound:
-   * HTTP/1.1 404 Not Found
-   * {
-   *   "message": "(PUT) /api/product/5beb714fdf45f6e56009a24b |  Error updating product: Product not found",
-   *   "code": 404
-   * }
-   */
   throwIfNotExists(item: IProduct) {
     if (!item) throw { message: 'Product not found', code: 404 };
   }

@@ -42,29 +42,6 @@ export class PurchaseBusiness implements IPurchaseBusiness {
     return res;
   }
 
-  /**
-   * @apiDefine PurchaseProductNotFoundError
-   * @apiError (404) PurchaseProductNotFound No product for the purchase with the <code>productId</code> could be found.
-   *
-   * @apiErrorExample {json} PurchaseProductNotFound:
-   * HTTP/1.1 404 Not Found
-   * {
-   *   "message": "(POST) /api/purchase | Error creating purchase: Product XKXKXK for purchase not found",
-   *   "code": 404
-   * }
-   */
-
-  /**
-   * @apiDefine PurchaseProductDoesNotSupportAmountError
-   * @apiError (400) PurchaseProductDoesNotSupportAmount The specified <code>amount</code> is not supported by the product with <code>productId</code>.
-   *
-   * @apiErrorExample {json} PurchaseProductDoesNotSupportAmount:
-   * HTTP/1.1 400 Bad Request
-   * {
-   *  "message": "(POST) /api/purchase | Error creating purchase: Specified amount: 20 for purchase not supported by product AIL",
-   *  "code": 400
-   * }
-   */
   async create(item: INewPurchase): Promise<IPurchase> {
     const product = await this._productRepository.findOne({ productId: item.productId });
     if (!product)
@@ -103,25 +80,6 @@ export class PurchaseBusiness implements IPurchaseBusiness {
     return true;
   }
 
-  /**
-   * @apiDefine PurchaseNotFoundError
-   *
-   * @apiError (404) PurchaseNotFound No purchase with the specified identifier could be found.
-   *
-   * @apiErrorExample {json} PurchaseIdNotFound:
-   * HTTP/1.1 404 Not Found
-   * {
-   *   "message": "(PUT) /api/product/5beb714fdf45f6e56009a24b |  Error finding purchase: Purchase item not found",
-   *   "code": 404
-   * }
-   *
-   * @apiErrorExample {json} PurchaseExternalIdNotFound:
-   * HTTP/1.1 404 Not Found
-   * {
-   *   "message": "(PUT) /api/product/externalId/000000000007 |  Error finding purchase: Purchase item not found",
-   *   "code": 404
-   * }
-   */
   throwIfNotExists(item: IPurchase) {
     if (!item) throw { message: 'Purchase item not found', code: 404 };
   }

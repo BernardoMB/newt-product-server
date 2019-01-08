@@ -3,7 +3,7 @@ import { Document, Model } from 'mongoose';
 import { IWrite } from '../interfaces/base/Write';
 import { IRead } from '../interfaces/base/Read';
 
-export class RepositoryBase<T extends Document> implements IRead<T>, IWrite<T> {
+export abstract class RepositoryBase<T extends Document> implements IRead<T>, IWrite<T> {
   protected _model: Model<Document>;
 
   constructor(schemaModel: Model<Document>) {

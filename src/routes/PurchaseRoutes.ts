@@ -18,7 +18,6 @@ export class PurchaseRoutes {
 
   routes(): Router {
     const controller = this._purchaseController;
-    //router.get('', RequestValidator.validateWith([]), controller.retrieve);
     router.post('', RequestValidator.validateWith(newPurchaseFieldsValidator), controller.create);
     router.get('/user/:id', RequestValidator.validateWith([ObjectIdValidator]), controller.retrieveByClientId);
     router.get(

@@ -7,9 +7,7 @@ export class PurchaseRepository extends RepositoryBase<IPurchase> {
     super(PurchaseSchema);
   }
 
-  async updateStatus(_id: string, status: IPurchaseStatus) {
-    return await this._model
-      .findByIdAndUpdate(_id, { $push: { statusLog: status } }, { new: true })
-      .exec();
+  async updateStatus(_id: string, status: IPurchaseStatus): Promise<IPurchase> {
+    return <IPurchase>await this._model.findByIdAndUpdate(_id, { $push: { statusLog: status } }, { new: true }).exec();
   }
 }

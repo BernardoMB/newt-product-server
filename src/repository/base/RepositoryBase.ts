@@ -1,4 +1,4 @@
-import { Document, Model, Types } from 'mongoose';
+import { Document, Model } from 'mongoose';
 
 import { IWrite } from '../interfaces/base/Write';
 import { IRead } from '../interfaces/base/Read';
@@ -10,69 +10,63 @@ export class RepositoryBase<T extends Document> implements IRead<T>, IWrite<T> {
     this._model = schemaModel;
   }
 
-  async create(item: T): Promise<Document> {
-    return await this._model.create(item);
+  async create(item: T): Promise<T> {
+    return <T>await this._model.create(item);
   }
 
-  async createMany(items: T[]): Promise<Document[]> {
-    return await this._model.insertMany(items);
+  async createMany(items: T[]): Promise<T[]> {
+    return <T[]>await this._model.insertMany(items);
   }
 
-  async retrieve(): Promise<Document[]> {
-    return await this._model.find({}).exec();
+  async retrieve(): Promise<T[]> {
+    return <T[]>await this._model.find({}).exec();
   }
 
-  async retrieveBy(conditions: any, projection?: any | null, options?: any | null): Promise<Document[]> {
-    return await this._model.find(conditions, projection, options).exec();
+  async retrieveBy(conditions: any, projection?: any | null, options?: any | null): Promise<T[]> {
+    return <T[]>await this._model.find(conditions, projection, options).exec();
   }
 
-  async update(_id: string, item: T): Promise<Document> {
-    return await this._model.findByIdAndUpdate(_id, item, { new: true }).exec();
-    //return await this._model.update({ _id }, item, { new: true }).exec();
+  async update(_id: string, item: T): Promise<T> {
+    return <T>await this._model.findByIdAndUpdate(_id, item, { new: true }).exec();
   }
 
   async updateMany(conditions: any, item: T, options?: any | null): Promise<T[]> {
-    return await this._model.updateMany(conditions, item, options).exec();
+    return <T[]>await this._model.updateMany(conditions, item, options).exec();
   }
 
-  async delete(_id: string): Promise<Document> {
-    return await this._model.findByIdAndDelete(_id).exec();
-    //return await this._model.remove({ _id: this.toObjectId(_id) }).exec();
+  async delete(_id: string): Promise<T> {
+    return <T>await this._model.findByIdAndDelete(_id).exec();
   }
 
   async deleteMany(condition: any): Promise<any> {
     return await this._model.deleteMany(condition).exec();
   }
 
-  async findById(_id: string): Promise<Document> {
-    return await this._model.findById(_id).exec();
+  async findById(_id: string): Promise<T> {
+    return <T>await this._model.findById(_id).exec();
   }
 
-  async find(conditions: any, projections?: string, options?: any): Promise<Document[]> {
+  async find(conditions: any, projections?: string, options?: any): Promise<T[]> {
     if (!!projections && !options) {
-      return await this._model.find(conditions, projections).exec();
+      return <T[]>await this._model.find(conditions, projections).exec();
     }
     if (!!projections && !!options) {
-      return await this._model.find(conditions, projections, options).exec();
+      return <T[]>await this._model.find(conditions, projections, options).exec();
     }
-    return await this._model.find(conditions).exec();
+    return <T[]>await this._model.find(conditions).exec();
   }
 
-  async findOne(conditions: any, projections?: string, options?: any): Promise<Document> {
+  async findOne(conditions: any, projections?: string, options?: any): Promise<T> {
     if (!!projections && !options) {
-      return await this._model.findOne(conditions, projections).exec();
+      return <T>await this._model.findOne(conditions, projections).exec();
     }
     if (!!projections && !!options) {
-      return await this._model.findOne(conditions, projections, options).exec();
+      return <T>await this._model.findOne(conditions, projections, options).exec();
     }
-    return await this._model.findOne(conditions).exec();
+    return <T>await this._model.findOne(conditions).exec();
   }
 
   async drop() {
     return this._model.deleteMany({}).exec();
-  }
-
-  private toObjectId(_id: string): Types.ObjectId {
-    return Types.ObjectId.createFromHexString(_id);
   }
 }

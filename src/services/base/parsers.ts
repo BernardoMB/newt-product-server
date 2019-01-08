@@ -1,9 +1,6 @@
 import { parseString } from 'xml2js';
 import { toCamelCase, castValue } from '../../helpers/formatHelpers';
-import {
-  ISaleStatusResponse,
-  IBalanceResponse
-} from '../../models/interfaces/IResponse';
+import { ISaleStatusResponse, IBalanceResponse } from '../../models/interfaces/IServiceResponse';
 
 export function getErrorMessageFromRCode(rcode: string): string {
   switch (rcode) {
@@ -174,8 +171,7 @@ export function parseBalanceResponse(xml): Promise<IBalanceResponse> {
   return new Promise((resolve, reject) => {
     parseString(xml, (err, result) => {
       if (err) reject(err);
-      const almostResult =
-        result['S:Envelope']['S:Body'][0]['ns2:respSaldo'][0];
+      const almostResult = result['S:Envelope']['S:Body'][0]['ns2:respSaldo'][0];
       if (
         !!almostResult['$']['xsi:nil'] ||
         !almostResult['saldo'] ||
@@ -203,13 +199,9 @@ export function parseReversalResponse(xml): Promise<ISaleStatusResponse> {
         amount: parseFloat(almostResult['monto'][0]),
         rcode: almostResult['rcode'][0],
         date:
-          !!almostResult['fecha'] && almostResult['fecha'].length > 0
-            ? new Date(almostResult['fecha'][0])
-            : undefined,
+          !!almostResult['fecha'] && almostResult['fecha'].length > 0 ? new Date(almostResult['fecha'][0]) : undefined,
         confirmationCode:
-          !!almostResult['confirma'] && almostResult['confirma'].length > 0
-            ? almostResult['confirma'][0]
-            : undefined,
+          !!almostResult['confirma'] && almostResult['confirma'].length > 0 ? almostResult['confirma'][0] : undefined,
         extra:
           !!almostResult['extra'] && almostResult['extra'].length > 0
             ? parseExtraString(almostResult['extra'][0])
@@ -229,13 +221,9 @@ export function parseSaleStatusResponse(xml): Promise<ISaleStatusResponse> {
         amount: parseFloat(almostResult['monto'][0]),
         rcode: almostResult['rcode'][0],
         date:
-          !!almostResult['fecha'] && almostResult['fecha'].length > 0
-            ? new Date(almostResult['fecha'][0])
-            : undefined,
+          !!almostResult['fecha'] && almostResult['fecha'].length > 0 ? new Date(almostResult['fecha'][0]) : undefined,
         confirmationCode:
-          !!almostResult['confirma'] && almostResult['confirma'].length > 0
-            ? almostResult['confirma'][0]
-            : undefined,
+          !!almostResult['confirma'] && almostResult['confirma'].length > 0 ? almostResult['confirma'][0] : undefined,
         extra:
           !!almostResult['extra'] && almostResult['extra'].length > 0
             ? parseExtraString(almostResult['extra'][0])

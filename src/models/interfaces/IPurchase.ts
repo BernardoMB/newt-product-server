@@ -8,20 +8,6 @@ export interface IPurchaseStatus {
   extra?: any;
 }
 
-export interface IPurchase extends Document {
-  externalId: string;
-  productId: string;
-  user: string;
-  destination: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  amount: number;
-  confirmationNumber?: number;
-  comment?: string;
-  extra?: any;
-  statusLog: IPurchaseStatus[];
-}
-
 export interface INewPurchase {
   productId: string;
   user: string;
@@ -30,11 +16,16 @@ export interface INewPurchase {
   comment?: string;
 }
 
-export interface IPurchaseInfo {
-  id: string;
-  terminalNo: string;
+export interface IPurchase extends Document {
+  externalId: string;
   productId: string;
-  destination: string;
+  user: string;
   amount: number;
+  destination: string;
+  comment?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  confirmationNumber?: number;
   extra?: any;
+  statusLog: IPurchaseStatus[];
 }

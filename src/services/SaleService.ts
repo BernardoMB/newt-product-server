@@ -3,9 +3,9 @@ const soapRequest = require('easy-soap-request');
 import { getErrorMessageFromRCode, parseSaleStatusResponse } from './base/parsers';
 import { getSaleEnvelope } from './base/envelopes';
 import { url, getHeaders } from './base/headers';
-import { IPurchaseInfo } from '../models/interfaces/IPurchase';
+import { IPurchaseRequest } from '../models/interfaces/IServiceRequest';
 
-export async function doSale({ channelId, channelPassword }, purchaseInfo: IPurchaseInfo) {
+export async function doSale({ channelId, channelPassword }, purchaseInfo: IPurchaseRequest) {
   const xml = getSaleEnvelope(channelId, channelPassword, purchaseInfo);
   const {
     response: { body, statusCode }
@@ -16,7 +16,7 @@ export async function doSale({ channelId, channelPassword }, purchaseInfo: IPurc
   return result;
 }
 
-export async function getSaleStatus({ channelId, channelPassword }, purchaseInfo: IPurchaseInfo) {
+export async function getSaleStatus({ channelId, channelPassword }, purchaseInfo: IPurchaseRequest) {
   const xml = getSaleEnvelope(channelId, channelPassword, purchaseInfo);
   const {
     response: { body, statusCode }

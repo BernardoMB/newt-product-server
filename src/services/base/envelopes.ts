@@ -1,4 +1,4 @@
-import { IPurchaseInfo } from '../../models/interfaces/IPurchase';
+import { IPurchaseRequest } from '../../models/interfaces/IServiceRequest';
 
 export function extraObjToString(extra: any): string {
   let str = '';
@@ -24,7 +24,7 @@ export function getBalanceEnvelope(channelId: string, channelPassword: string) {
         `;
 }
 
-export function getSaleEnvelope(channelId: string, channelPassword: string, purchaseInfo: IPurchaseInfo) {
+export function getSaleEnvelope(channelId: string, channelPassword: string, purchaseInfo: IPurchaseRequest) {
   const { id, terminalNo, productId, destination, amount, extra } = purchaseInfo;
   return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.chan.mx/">
       <soapenv:Header/>
@@ -43,9 +43,9 @@ export function getSaleEnvelope(channelId: string, channelPassword: string, purc
     </soapenv:Envelope>`;
 }
 
-export function getReversalEnvelope(channelId: string, channelPassword: string, purchaseInfo: IPurchaseInfo) {
+export function getReversalEnvelope(channelId: string, channelPassword: string, purchaseInfo: IPurchaseRequest) {
   let { id, terminalNo, productId, destination, amount, extra } = purchaseInfo;
-  if ((!destination || destination === 0) && !!extra.pin) destination = extra.pin;
+  if ((!destination || destination === '0') && !!extra.pin) destination = extra.pin;
   return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.chan.mx/">
       <soapenv:Header/>
       <soapenv:Body>

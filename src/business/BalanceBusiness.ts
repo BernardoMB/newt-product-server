@@ -1,8 +1,11 @@
-import { IBalanceBusiness } from './interfaces/IBalanceBusiness';
-import { getBalance } from '../services/BalanceService';
-import { ICredentials } from '../models/interfaces/ICredentials';
 import { credentials } from '../secrets';
-import { IBalanceResponse } from '../models/interfaces/IResponse';
+
+import { IBalanceBusiness } from './interfaces/IBalanceBusiness';
+
+import { getBalance } from '../services/BalanceService';
+
+import { ICredentials } from '../models/interfaces/ICredentials';
+import { IBalanceResponse } from '../models/interfaces/IServiceResponse';
 
 export class BalanceBusiness implements IBalanceBusiness {
   private _credentials: ICredentials;

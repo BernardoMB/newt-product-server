@@ -1,7 +1,7 @@
-import { IProduct } from '../models/interfaces/IProduct';
 import { ProductRepository } from '../repository/ProductRepository';
 import { IProductBusiness } from './interfaces/IProductBusiness';
-import { Document } from 'mongoose';
+
+import { IProduct } from '../models/interfaces/IProduct';
 
 export class ProductBusiness implements IProductBusiness {
   private _productRepository: ProductRepository;
@@ -33,7 +33,6 @@ export class ProductBusiness implements IProductBusiness {
   async delete(_id: string): Promise<boolean> {
     this.throwIfNotExists(await this._productRepository.delete(_id));
     return true;
-    //return await this._productRepository.delete(_id);
   }
 
   /**
@@ -48,7 +47,7 @@ export class ProductBusiness implements IProductBusiness {
    *   "code": 404
    * }
    */
-  private throwIfNotExists(item: Document) {
+  throwIfNotExists(item: IProduct) {
     if (!item) throw { message: 'Product not found', code: 404 };
   }
 }

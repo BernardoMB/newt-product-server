@@ -1,10 +1,9 @@
-import { Document } from 'mongoose';
-
 export interface IWrite<T> {
-  create: (item: T) => Promise<Document>;
-  createMany: (items: T[]) => Promise<Document[]>;
-  update: (_id: string, item: T) => Promise<Document>;
+  create: (item: T) => Promise<T>;
+  createMany: (items: T[]) => Promise<T[]>;
+  update: (_id: string, item: T) => Promise<T>;
   updateMany: (conditions: any, item: T, options?: any | null) => Promise<T[]>;
-  delete: (_id: string) => Promise<Document>;
+  delete: (_id: string) => Promise<T>;
   deleteMany: (condition: any) => Promise<any>;
+  drop: () => Promise<any>;
 }

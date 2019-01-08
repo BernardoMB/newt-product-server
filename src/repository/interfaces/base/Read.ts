@@ -1,11 +1,7 @@
-import { Document } from 'mongoose';
-
 export interface IRead<T> {
-  retrieve: () => Promise<Document[]>;
-  retrieveBy: (
-    conditions: any,
-    projection?: any | null,
-    options?: any | null
-  ) => Promise<Document[]>;
-  findById: (id: string) => Promise<Document>;
+  retrieve: () => Promise<T[]>;
+  retrieveBy: (conditions: any, projection?: any | null, options?: any | null) => Promise<T[]>;
+  find: (conditions: any, projections?: string, options?: any) => Promise<T[]>;
+  findOne: (conditions: any, projections?: string, options?: any) => Promise<T>;
+  findById: (id: string) => Promise<T>;
 }

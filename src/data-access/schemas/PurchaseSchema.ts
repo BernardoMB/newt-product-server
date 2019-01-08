@@ -13,7 +13,7 @@ const status = {
 
 const schema: Schema = new Schema(
   {
-    product: { type: String, required: true },
+    productId: { type: String, required: true },
     externalId: { type: String, required: false },
     user: { type: Schema.Types.ObjectId, ref: 'User' },
     destination: { type: String, required: true },

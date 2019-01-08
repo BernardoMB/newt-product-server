@@ -18,7 +18,7 @@ export class ProductController implements IBaseController<ProductBusiness> {
    * @apiParamExample {json} Create product Request-Example:
    * {
    *   "name": "MOVISTAR",
-   *   "code": "A",
+   *   "productId": "A",
    *   "kind": 0,
    *   "amounts": [
    *     {
@@ -65,7 +65,7 @@ export class ProductController implements IBaseController<ProductBusiness> {
    * {
    *   "_id": "5c1996e35e015bc3483c153b",
    *   "name": "MOVISTAR",
-   *   "code": "A",
+   *   "productId": "A",
    *   "kind": 0,
    *   "amounts": [
    *     {
@@ -134,7 +134,7 @@ export class ProductController implements IBaseController<ProductBusiness> {
    * {
    *   "_id": "5c1996e35e015bc3483c153b",
    *   "name": "MOVISTAR",
-   *   "code": "A",
+   *   "productId": "A",
    *   "kind": 0,
    *   "amounts": [
    *     {
@@ -182,7 +182,7 @@ export class ProductController implements IBaseController<ProductBusiness> {
    *  "product": {
    *     "_id": "5c1996e35e015bc3483c153b",
    *     "name": "MOVISTAR",
-   *     "code": "A",
+   *     "productId": "A",
    *     "kind": 0,
    *     "amounts": [
    *       {
@@ -305,7 +305,7 @@ export class ProductController implements IBaseController<ProductBusiness> {
    *  "product": {
    *    "_id": "5c1996e35e015bc3483c153b",
    *    "name": "MOVISTAR",
-   *    "code": "A",
+   *    "productId": "A",
    *    "kind": 0,
    *    "amounts": [
    *      {

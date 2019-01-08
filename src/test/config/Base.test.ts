@@ -1,4 +1,4 @@
-import { init } from './../../main';
+import { init } from '../../main';
 
 before('connect', async function() {
   await init();

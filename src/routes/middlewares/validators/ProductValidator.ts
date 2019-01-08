@@ -11,7 +11,7 @@ import { checkSchema } from 'express-validator/check';
  *     "message": "(POST) /api/product | Invalid request: 8 errors occured",
  *     "errors": [
  *         "body[name] = undefined | Name field must be present",
- *         "body[code] = undefined | Product code field must be present",
+ *         "body[productId] = undefined | Product productId field must be present",
  *         "body[amounts] = undefined | Must be an array of {amount(number), description(string)}",
  *         "body[providerId] = undefined | A provider id must be included",
  *         "body[paymentCurrency] = undefined | A valid currency must be specified",
@@ -26,7 +26,7 @@ import { checkSchema } from 'express-validator/check';
  * {
  *    "message": "(POST) /api/product | Invalid request: 7 errors occured",
  *    "errors": [
- *        "body[code] = 0 | Product code field must be a valid non whitespace string",
+ *        "body[productId] = 0 | Product productId field must be a valid non whitespace string",
  *        "body[kind] = 55 | Product kind must be an int: 0, 1 or 2",
  *        "body[amounts[0].amount] = -1 | Amount must be a valid, positive number: e.g. 25,000 or 256.78",
  *        "body[providerId] = undefined | A provider id must be included",
@@ -48,13 +48,13 @@ export const productFieldsValidator = checkSchema({
     },
     trim: true
   },
-  code: {
+  productId: {
     in: ['body'],
     exists: {
-      errorMessage: 'Product code field must be present'
+      errorMessage: 'Product productId field must be present'
     },
     isString: {
-      errorMessage: 'Product code field must be a valid non whitespace string'
+      errorMessage: 'Product productId field must be a valid non whitespace string'
     },
     trim: true
   },

@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 
 export interface IProduct extends mongoose.Document {
   name: string;
-  code: string;
+  productId: string;
   kind?: number;
   amounts: Array<{ amount: number; description: string }>;
   providerId: string;

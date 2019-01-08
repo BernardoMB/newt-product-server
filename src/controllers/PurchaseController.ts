@@ -36,7 +36,7 @@ export class PurchaseController implements IBaseController<PurchaseBusiness> {
    * {
    *  "purchase": {
    *      "_id": "5c1bfa07818aa0b36885534d",
-   *      "product": "AIL",
+   *      "productId": "AIL",
    *      "user": "5c1996e35e015bc3483c153b",
    *      "destination": "5511829394",
    *      "amount": 300,
@@ -63,7 +63,7 @@ export class PurchaseController implements IBaseController<PurchaseBusiness> {
    * {
    *    "purchase": {
    *        "_id": "5c1bfcce818aa0b36885534e",
-   *        "product": "AIL",
+   *        "productId": "AIL",
    *        "user": "5c1996e35e015bc3483c153b",
    *        "destination": "5500000094",
    *        "amount": 60,
@@ -153,7 +153,7 @@ export class PurchaseController implements IBaseController<PurchaseBusiness> {
    * {
    *     "purchase": {
    *         "_id": "5c199729cfa9d647882640a9",
-   *         "product": "AIL",
+   *         "productId": "AIL",
    *         "user": "5c1996e35e015bc3483c153b",
    *         "destination": "5529714880",
    *         "amount": 200,
@@ -202,7 +202,7 @@ export class PurchaseController implements IBaseController<PurchaseBusiness> {
    * {
    *     "purchase": {
    *         "_id": "5c199729cfa9d647882640a9",
-   *         "product": "AIL",
+   *         "productId": "AIL",
    *         "user": "5c1996e35e015bc3483c153b",
    *         "destination": "5529714880",
    *         "amount": 200,
@@ -252,7 +252,7 @@ export class PurchaseController implements IBaseController<PurchaseBusiness> {
    *  "purchases": [
    *      {
    *          "_id": "5c199729cfa9d647882640a9",
-   *          "product": "AIL",
+   *          "productId": "AIL",
    *          "user": "5c1996e35e015bc3483c153b",
    *          "destination": "5529714880",
    *          "amount": 200,
@@ -271,7 +271,7 @@ export class PurchaseController implements IBaseController<PurchaseBusiness> {
    *      },
    *      {
    *          "_id": "5c1a5522babc4291c8286293",
-   *          "product": "AYN",
+   *          "productId": "AYN",
    *          "user": "5c1996e35e015bc3483c153b",
    *          "destination": "5529714880",
    *          "amount": 20,
@@ -295,7 +295,7 @@ export class PurchaseController implements IBaseController<PurchaseBusiness> {
    *      },
    *      {
    *          "_id": "5c1a6305babc4291c8286294",
-   *          "product": "ADA",
+   *          "productId": "ADA",
    *          "user": "5c1996e35e015bc3483c153b",
    *          "destination": "5500000099",
    *          "amount": 10,

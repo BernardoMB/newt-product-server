@@ -10,7 +10,7 @@ export interface IPurchaseStatus {
 
 export interface IPurchase extends Document {
   externalId: string;
-  product: string;
+  productId: string;
   user: string;
   destination: string;
   createdAt?: Date;

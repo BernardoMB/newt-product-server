@@ -10,7 +10,7 @@ const amount = {
 
 const schema: Schema = new Schema({
   name: { type: String, required: true },
-  code: { type: String, required: true },
+  productId: { type: String, required: true },
   kind: { type: Number, required: false },
   amounts: {
     type: [amount],
@@ -34,7 +34,4 @@ const schema: Schema = new Schema({
   observation: { type: String, required: false }
 });
 
-export const ProductSchema: Model<IProduct> = model<IProduct>(
-  'Product',
-  schema
-);
+export const ProductSchema: Model<IProduct> = model<IProduct>('Product', schema);

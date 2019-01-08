@@ -10,7 +10,7 @@ import { checkSchema, param } from 'express-validator/check';
  * {
  *     "message": "(POST) /api/purchase | Invalid request: 4 errors occured",
  *     "errors": [
- *         "body[productId] = undefined | Product code field must be present",
+ *         "body[productId] = undefined | Product productId field must be present",
  *         "body[user] = undefined | User id must be present",
  *         "body[destination] = undefined | Must be a valid positive number",
  *         "body[amount] = undefined | Amount must be a valid positive number"
@@ -34,10 +34,10 @@ export const newPurchaseFieldsValidator = checkSchema({
   productId: {
     in: ['body'],
     exists: {
-      errorMessage: 'Product code field must be present'
+      errorMessage: 'Product productId field must be present'
     },
     isString: {
-      errorMessage: 'Product code field must be a valid non whitespace string'
+      errorMessage: 'Product productId field must be a valid non whitespace string'
     },
     trim: true
   },

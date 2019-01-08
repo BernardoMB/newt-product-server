@@ -68,7 +68,7 @@ export class PurchaseBusiness implements IPurchaseBusiness {
    */
   async create(item: INewPurchase): Promise<IPurchase> {
     const p = <IPurchase>this._mapNewPurchaseToPurchase(item);
-    const product = <IProduct>await this._productRepository.findOne({ code: item.productId });
+    const product = <IProduct>await this._productRepository.findOne({ productId: item.productId });
     if (!product)
       throw {
         message: `Product ${item.productId} for purchase not found`,
@@ -83,7 +83,7 @@ export class PurchaseBusiness implements IPurchaseBusiness {
     const purchaseInfo: IPurchaseInfo = {
       id: purchase.externalId,
       destination: purchase.destination,
-      productId: product.code,
+      productId: product.productId,
       terminalNo: '0',
       amount: purchase.amount,
       extra: !!purchase.extra ? purchase.extra : undefined
@@ -124,7 +124,7 @@ export class PurchaseBusiness implements IPurchaseBusiness {
 
   private _mapNewPurchaseToPurchase(np: INewPurchase): Partial<IPurchase> {
     return {
-      product: np.productId,
+      productId: np.productId,
       user: np.user,
       destination: np.destination,
       amount: np.amount,

@@ -6,6 +6,8 @@ import { app } from './../../main';
 import { ProductRepository } from '../../repository/ProductRepository';
 
 import { IProduct } from '../../models/interfaces/IProduct';
+import { IUser } from '../../models/interfaces/IUser';
+import { UserRepository } from '../../repository/UserRepository';
 
 const newProduct: Partial<IProduct> = {
   name: 'PAQUETES AMAZON + SPOTIFY',
@@ -50,8 +52,18 @@ const updatedProduct: Partial<IProduct> = {
   ]
 };
 
+const testUser : Partial<IUser> = {
+  username: 'irving',
+  password: 'karla'
+};
+
 describe('PRODUCT', function() {
   const productRepository = new ProductRepository();
+  const userRepository = new UserRepository();
+  before(async function() {
+    await userRepository.drop();
+    await userRepository.create(<IUser>testUser);
+  })
   beforeEach(async function() {
     await productRepository.drop();
   });
@@ -77,8 +89,14 @@ describe('PRODUCT', function() {
   describe('POST /product', function() {
     it('Creates a new product succesfully', async function() {
       try {
+        const authRes = await request(app)
+          .post('/api/user/login')
+          .send(testUser)
+          .expect(200);
+        const token = authRes.body['user']['token'];
         const res = await request(app)
           .post('/api/product')
+          .set('Authorization', token)
           .send(newProduct)
           .expect('Content-Type', 'application/json; charset=utf-8')
           .expect(200);
@@ -97,8 +115,14 @@ describe('PRODUCT', function() {
   describe('GET /product/:id', function() {
     it('Creates a new product and retrieves it by id', async function() {
       try {
+        const authRes = await request(app)
+          .post('/api/user/login')
+          .send(testUser)
+          .expect(200);
+        const token = authRes.body['user']['token'];
         const res1 = await request(app)
           .post('/api/product')
+          .set('Authorization', token)
           .send(newProduct)
           .expect(200);
         const createdProduct = res1.body['product'];
@@ -117,13 +141,20 @@ describe('PRODUCT', function() {
   describe('PUT /product/:id', function() {
     it('Creates a new product and updates it succesfully', async function() {
       try {
+        const authRes = await request(app)
+          .post('/api/user/login')
+          .send(testUser)
+          .expect(200);
+        const token = authRes.body['user']['token'];
         const res1 = await request(app)
           .post('/api/product')
+          .set('Authorization', token)
           .send(newProduct)
           .expect(200);
         const createdProduct = res1.body['product'];
         const res2 = await request(app)
           .put(`/api/product/${createdProduct._id}`)
+          .set('Authorization', token)
           .send(updatedProduct)
           .expect('Content-Type', 'application/json; charset=utf-8')
           .expect(201);
@@ -145,13 +176,20 @@ describe('PRODUCT', function() {
   describe('DELETE /product/:id', function() {
     it('Creates a new product and deletes it succesfully', async function() {
       try {
+        const authRes = await request(app)
+          .post('/api/user/login')
+          .send(testUser)
+          .expect(200);
+        const token = authRes.body['user']['token'];
         const res1 = await request(app)
           .post('/api/product')
+          .set('Authorization', token)
           .send(newProduct)
           .expect(200);
         const createdProduct = res1.body['product'];
         const res2 = await request(app)
           .delete(`/api/product/${createdProduct._id}`)
+          .set('Authorization', token)
           .expect('Content-Type', 'application/json; charset=utf-8')
           .expect(200);
         expect(res2.body).to.have.property('id');

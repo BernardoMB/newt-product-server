@@ -10,6 +10,7 @@ import { ProductRoutes } from '../ProductRoutes';
 import { PurchaseRoutes } from '../PurchaseRoutes';
 import { BalanceRoutes } from '../BalanceRoutes';
 import { environment } from '../../environment';
+import { UserRoutes } from '../UserRoutes';
 
 const DOC_PATH = join(__dirname, '../../../documentation');
 
@@ -31,6 +32,7 @@ export class Api {
     app.use('/api/product', new ProductRoutes().routes());
     app.use('/api/purchase', new PurchaseRoutes().routes());
     app.use('/api/balance', new BalanceRoutes().routes());
+    app.use('/api/user', new UserRoutes().routes());
     //Middleware to handle all error messages
     app.use(ErrorHandler);
   }

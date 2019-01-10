@@ -4,21 +4,26 @@ import { PurchaseRepository } from '../repository/PurchaseRepository';
 import { ProductRepository } from '../repository/ProductRepository';
 import { IPurchaseBusiness } from './interfaces/IPurchaseBusiness';
 import { doSale } from '../services/SaleService';
+import { getErrorMessageFromRCode } from '../services/base/parsers';
 
 import { IPurchase, INewPurchase, IPurchaseStatus } from '../models/interfaces/IPurchase';
 import { PurchaseStatus } from '../models/enums/PurchaseStatus';
 import { ICredentials } from '../models/interfaces/ICredentials';
 import { Purchase } from '../models/Purchase';
 import { Product } from '../models/Product';
+import { SaleStatusRepository } from '../repository/SaleStatusRepository';
+import { ISaleStatusResponseDoc } from '../data-access/schemas/SaleStatusSchema';
 
 export class PurchaseBusiness implements IPurchaseBusiness {
   private _purchaseRepository: PurchaseRepository;
   private _productRepository: ProductRepository;
+  private _saleStatusRepository: SaleStatusRepository;
   private _credentials: ICredentials;
 
   constructor() {
     this._purchaseRepository = new PurchaseRepository();
     this._productRepository = new ProductRepository();
+    this._saleStatusRepository = new SaleStatusRepository();
     this._credentials = credentials;
   }
 
@@ -57,6 +62,8 @@ export class PurchaseBusiness implements IPurchaseBusiness {
     let purchase = await this._purchaseRepository.create(<IPurchase>Purchase.createNewPurchase(item));
     try {
       const response = await doSale(this._credentials, Purchase.createNewPurchaseRequest(purchase, product));
+      await this._saleStatusRepository.create(<ISaleStatusResponseDoc>response);
+      if (response.rcode !== '00') throw new Error(`NewUision: "${getErrorMessageFromRCode(response.rcode)}"`);
       purchase = await this.updateStatus(purchase.id, Purchase.createNewUpdate(PurchaseStatus.Approved));
     } catch (e) {
       purchase = await this.updateStatus(purchase.id, Purchase.createNewUpdate(PurchaseStatus.Failed, e.message));

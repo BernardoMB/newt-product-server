@@ -4,7 +4,7 @@ export interface IBalanceResponse {
 }
 
 export interface ISaleStatusResponse {
-  id: string;
+  externalId: string;
   amount: number;
   rcode: string;
   date: Date;

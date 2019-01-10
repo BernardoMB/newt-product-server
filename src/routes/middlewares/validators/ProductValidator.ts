@@ -54,6 +54,17 @@ export const productFieldsValidator = checkSchema({
     isString: true,
     trim: true
   },
+  commission: {
+    in: ['body'],
+    optional: true,
+    errorMessage: 'Commission must be a valid, positive number: e.g. 25,000 or 256.78',
+    isCurrency: {
+      options: {
+        allow_negatives: false
+      }
+    },
+    toFloat: true
+  },
   providerId: {
     in: ['body'],
     exists: {

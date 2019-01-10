@@ -195,7 +195,7 @@ export function parseReversalResponse(xml): Promise<ISaleStatusResponse> {
       if (err) reject(err);
       const almostResult = result['S:Envelope']['S:Body'][0]['ns2:resp'][0];
       resolve({
-        id: almostResult['id'][0],
+        externalId: almostResult['id'][0],
         amount: parseFloat(almostResult['monto'][0]),
         rcode: almostResult['rcode'][0],
         date:
@@ -217,7 +217,7 @@ export function parseSaleStatusResponse(xml): Promise<ISaleStatusResponse> {
       if (err) reject(err);
       const almostResult = result['S:Envelope']['S:Body'][0]['ns2:resp'][0];
       resolve({
-        id: almostResult['id'][0],
+        externalId: almostResult['id'][0],
         amount: parseFloat(almostResult['monto'][0]),
         rcode: almostResult['rcode'][0],
         date:

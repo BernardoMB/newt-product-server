@@ -9,6 +9,7 @@ import { PurchaseRepository } from '../../repository/PurchaseRepository';
 import { IProduct } from '../../models/interfaces/IProduct';
 import { PurchaseStatus } from '../../models/enums/PurchaseStatus';
 import { IPurchase, INewPurchase } from '../../models/interfaces/IPurchase';
+import { SaleStatusRepository } from '../../repository/SaleStatusRepository';
 
 const products: Partial<IProduct>[] = [
   {
@@ -144,16 +145,19 @@ const payPrepaidNewPurchase: INewPurchase = {
 describe('PURCHASE', function() {
   const productRepository = new ProductRepository();
   const purchaseRepository = new PurchaseRepository();
+  const saleStatusRepository = new SaleStatusRepository();
   before(async function() {
     await productRepository.drop();
     await productRepository.createMany(<IProduct[]>products);
   });
   beforeEach(async function() {
     await purchaseRepository.drop();
+    await saleStatusRepository.drop();
   });
   after(async function() {
     await productRepository.drop();
     await purchaseRepository.drop();
+    await saleStatusRepository.drop();
   });
 
   describe('POST /purchase', function() {
@@ -172,6 +176,9 @@ describe('PURCHASE', function() {
         expect(purchase.statusLog[0].code, 'First update should be pending (0)').to.equal(<number>(
           PurchaseStatus.Pending
         ));
+        if (purchase.statusLog[1].code !== <number>PurchaseStatus.Approved) {
+          console.error('\t', purchase.statusLog[1].message);
+        }
         expect(purchase.statusLog[1].code, 'Second update should be approved (1)').to.equal(<number>(
           PurchaseStatus.Approved
         ));
@@ -195,6 +202,9 @@ describe('PURCHASE', function() {
         expect(purchase.statusLog[0].code, 'First update should be pending (0)').to.equal(<number>(
           PurchaseStatus.Pending
         ));
+        if (purchase.statusLog[1].code !== <number>PurchaseStatus.Approved) {
+          console.error('\t', purchase.statusLog[1].message);
+        }
         expect(purchase.statusLog[1].code, 'Second update should be approved (1)').to.equal(<number>(
           PurchaseStatus.Approved
         ));
@@ -218,6 +228,9 @@ describe('PURCHASE', function() {
         expect(purchase.statusLog[0].code, 'First update should be pending (0)').to.equal(<number>(
           PurchaseStatus.Pending
         ));
+        if (purchase.statusLog[1].code !== <number>PurchaseStatus.Approved) {
+          console.error('\t', purchase.statusLog[1].message);
+        }
         expect(purchase.statusLog[1].code, 'Second update should be approved (1)').to.equal(<number>(
           PurchaseStatus.Approved
         ));

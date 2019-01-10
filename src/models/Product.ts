@@ -23,6 +23,10 @@ export class Product {
     return this._product.amounts;
   }
 
+  get commission(): number {
+    return this._product.commission;
+  }
+
   get providerId(): string {
     return this._product.providerId;
   }

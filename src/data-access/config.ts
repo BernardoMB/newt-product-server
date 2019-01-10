@@ -18,14 +18,15 @@ export class Db {
       if (this.auth) {
         connection = await Mongoose.connect(
           db,
-          { useNewUrlParser: true, useFindAndModify: false, user: 'newt', pass: 'mimaamakim' }
+          { useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true, user: 'newt', pass: 'mimaamakim' }
         );
       } else {
         connection = await Mongoose.connect(
           db,
-          { useNewUrlParser: true, useFindAndModify: false }
+          { useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true }
         );
       }
+      console.log(`Running on environment: \x1b[34m${environment.env}\x1b[0m`);
       console.log(`Connected to db: \x1b[34m${db}\x1b[0m`);
       return connection;
     } catch (e) {

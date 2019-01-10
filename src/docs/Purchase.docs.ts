@@ -108,7 +108,7 @@
  *	 "productId": "AIL",
  *	 "user": "5c1996e35e015bc3483c153b",
  *	 "amount": 300,
- *	 "destination": 5511829394,
+ *	 "destination": "5511829394",
  *	 "comment": "This should result in a succesful purchase object with a succesful status (1)"
  * }
  * @apiParamExample {json} Create product with third party error Request-Example:

@@ -52,9 +52,9 @@ const updatedProduct: Partial<IProduct> = {
   ]
 };
 
-const testUser : Partial<IUser> = {
+const testUser: Partial<IUser> = {
   username: 'irving',
-  password: 'karla'
+  password: 'carla'
 };
 
 describe('PRODUCT', function() {
@@ -63,7 +63,7 @@ describe('PRODUCT', function() {
   before(async function() {
     await userRepository.drop();
     await userRepository.create(<IUser>testUser);
-  })
+  });
   beforeEach(async function() {
     await productRepository.drop();
   });
@@ -124,6 +124,7 @@ describe('PRODUCT', function() {
           .post('/api/product')
           .set('Authorization', token)
           .send(newProduct)
+          .expect('Content-Type', 'application/json; charset=utf-8')
           .expect(200);
         const createdProduct = res1.body['product'];
         const res2 = await request(app)

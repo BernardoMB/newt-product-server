@@ -4,9 +4,12 @@ import { ProductController } from '../controllers/ProductController';
 
 //Validators
 import { ObjectIdValidator } from './middlewares/validators/IdValidator';
-import { productFieldsValidator } from './middlewares/validators/ProductValidator';
+import { ProductFieldsValidator } from './middlewares/validators/ProductValidator';
+import { AuthenticationHeaderValidator } from './middlewares/validators/HeaderValidator';
 import RequestValidator from './middlewares/validators/RequestValidator';
-import { authenticate } from './middlewares/auth';
+
+//Authentication
+import { AuthenticateAdmin } from './middlewares/authenticators/AdminAuthenticator';
 
 const router = Router();
 
@@ -20,15 +23,25 @@ export class ProductRoutes {
   routes(): Router {
     const controller = this._productController;
     router.get('', RequestValidator.validateWith([]), controller.retrieve);
-    router.post('', RequestValidator.validateWith(productFieldsValidator), authenticate, controller.create);
+    router.post(
+      '',
+      RequestValidator.validateWith([...ProductFieldsValidator, AuthenticationHeaderValidator]),
+      AuthenticateAdmin,
+      controller.create
+    );
     router.put(
       '/:id',
-      RequestValidator.validateWith([ObjectIdValidator, ...productFieldsValidator]),
-      authenticate,
+      RequestValidator.validateWith([ObjectIdValidator, ...ProductFieldsValidator, AuthenticationHeaderValidator]),
+      AuthenticateAdmin,
       controller.update
     );
     router.get('/:id', RequestValidator.validateWith([ObjectIdValidator]), controller.findById);
-    router.delete('/:id', RequestValidator.validateWith([ObjectIdValidator]), authenticate, controller.delete);
+    router.delete(
+      '/:id',
+      RequestValidator.validateWith([ObjectIdValidator, AuthenticationHeaderValidator]),
+      AuthenticateAdmin,
+      controller.delete
+    );
     return router;
   }
 }

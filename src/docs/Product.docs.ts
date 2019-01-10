@@ -58,9 +58,11 @@
  * @apiPrivate
  * @apiName CreateProduct
  * @apiGroup Product
+ * @apiPermission admin
  *
  * @apiDescription Creates the product provided as a payload.
  *
+ * @apiHeader {String} Authorization Admin user unique access jwt token.
  * @apiParam {Object} product The new product data to update the product with the given <code>id</code>.
  * @apiParamExample {json} Create product Request-Example:
  * {
@@ -154,6 +156,8 @@
  *   "observation": "Original comment",
  * }
  *
+ * @apiUse AuthenticationHeaderError
+ * @apiUse AuthenticationError
  * @apiUse ProductFieldsError
  */
 
@@ -162,9 +166,11 @@
  * @apiPrivate
  * @apiName UpdateProduct
  * @apiGroup Product
- *
+ * @apiPermission admin
+
  * @apiDescription Overrides the product with the specified <code>id</code> field with the payload.
  *
+ * @apiHeader {String} Authorization Admin user unique access jwt token.
  * @apiParam {string} id Product unique <code>id</code>.
  * @apiParam {Object} product The new product data to update the product with the given <code>id</code>.
  * @apiParamExample {json} Update product Request-Example:
@@ -261,7 +267,8 @@
  *     "observation": "Updated comment"
  *   }
  * }
- *
+ * @apiUse AuthenticationHeaderError
+ * @apiUse AuthenticationError
  * @apiUse MongoIdError
  * @apiUse ProductNotFoundError
  * @apiUse ProductFieldsError
@@ -272,13 +279,17 @@
  * @apiPrivate
  * @apiName DeleteProduct
  * @apiGroup Product
+ * @apiPermission admin
  *
  * @apiDescription Deletes the product with the specified <code>id</code> field.
  *
+ * @apiHeader {String} Authorization Admin user unique access jwt token.
  * @apiParam {string} id Product unique <code>id</code>.
  *
  * @apiSuccess (200) {string} id       The <code>id</code> of the product that was deleted.
  *
+ * @apiUse AuthenticationHeaderError
+ * @apiUse AuthenticationError
  * @apiUse MongoIdError
  * @apiUse ProductNotFoundError
  */

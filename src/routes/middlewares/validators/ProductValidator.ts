@@ -1,6 +1,6 @@
 import { checkSchema } from 'express-validator/check';
 
-export const productFieldsValidator = checkSchema({
+export const ProductFieldsValidator = checkSchema({
   name: {
     in: ['body'],
     exists: {

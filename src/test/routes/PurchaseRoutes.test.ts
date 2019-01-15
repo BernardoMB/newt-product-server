@@ -2,6 +2,9 @@ import * as request from 'supertest';
 import { it, describe } from 'mocha';
 import { expect } from 'chai';
 
+import { sign } from 'jsonwebtoken';
+
+import { environment } from './../../environment';
 import { app } from './../../main';
 import { ProductRepository } from '../../repository/ProductRepository';
 import { PurchaseRepository } from '../../repository/PurchaseRepository';
@@ -110,6 +113,8 @@ const products: Partial<IProduct>[] = [
   }
 ];
 
+const authToken = sign('5c1996e35e015bc3483c153b', environment.jwtHash);
+
 const topUpNewPurchase: INewPurchase = {
   productId: 'A',
   user: '5c1996e35e015bc3483c153b',
@@ -165,6 +170,7 @@ describe('PURCHASE', function() {
       try {
         const res = await request(app)
           .post('/api/purchase')
+          .set('Authorization', authToken)
           .send(topUpNewPurchase)
           .expect('Content-Type', 'application/json; charset=utf-8')
           .expect(200);
@@ -191,6 +197,7 @@ describe('PURCHASE', function() {
       try {
         const res = await request(app)
           .post('/api/purchase')
+          .set('Authorization', authToken)
           .send(payBillNewPurchase)
           .expect('Content-Type', 'application/json; charset=utf-8')
           .expect(200);
@@ -217,6 +224,7 @@ describe('PURCHASE', function() {
       try {
         const res = await request(app)
           .post('/api/purchase')
+          .set('Authorization', authToken)
           .send(payTollNewPurchase)
           .expect('Content-Type', 'application/json; charset=utf-8')
           .expect(200);
@@ -243,6 +251,7 @@ describe('PURCHASE', function() {
       try {
         const res = await request(app)
           .post('/api/purchase')
+          .set('Authorization', authToken)
           .send(payPrepaidNewPurchase)
           .expect('Content-Type', 'application/json; charset=utf-8')
           .expect(200);
@@ -270,6 +279,7 @@ describe('PURCHASE', function() {
         const destination = '5500000013';
         const res1 = await request(app)
           .post('/api/purchase')
+          .set('Authorization', authToken)
           .send({ ...topUpNewPurchase, destination })
           .expect(200);
         const createdPurchase = res1.body['purchase'];
@@ -295,6 +305,7 @@ describe('PURCHASE', function() {
         const destination = '5500000014';
         const res1 = await request(app)
           .post('/api/purchase')
+          .set('Authorization', authToken)
           .send({ ...topUpNewPurchase, destination })
           .expect(200);
         const createdPurchase = res1.body['purchase'];
@@ -319,14 +330,17 @@ describe('PURCHASE', function() {
       try {
         await request(app)
           .post('/api/purchase')
+          .set('Authorization', authToken)
           .send({ ...topUpNewPurchase, destination: '5500000016' })
           .expect(200);
         await request(app)
           .post('/api/purchase')
+          .set('Authorization', authToken)
           .send({ ...payBillNewPurchase, destination: '0290205737' })
           .expect(200);
         const res = await request(app)
           .get('/api/purchase/user/5c1996e35e015bc3483c153b')
+          .set('Authorization', authToken)
           .expect('Content-Type', 'application/json; charset=utf-8')
           .expect(200);
         expect(res.body).to.have.property('purchases');

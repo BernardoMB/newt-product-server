@@ -91,17 +91,27 @@
  * }
  */
 
+/**
+ * @apiDefine UserAuthorizationHeaderExample
+ *
+ * @apiHeaderExample {string} Authoriztion-Header-Example:
+ *     "eyJhbGciOiJIUzI1NiJ9.NWMxOTk2ZTM1ZTAxNWJjMzQ4M2MxNTNi.rsNZnkHlugO662UJ78GkZhGAIrjTJW-OR51q50NgDzU"
+ */
+
 //Routes
 
 /**
  * @api {post} /api/purchase CREATE
  * @apiName CreatePurchase
  * @apiGroup Purchase
+ * @apiPermission user
  *
  * @apiDescription Creates a new purchase and forwards the purchase request to the thid party provider.
  * If the third party provider returns an error a new product is still returned, but with an error status
  * in its <code>statusLog</code>.
  *
+ * @apiHeader {String} Authorization User unique access jwt token.
+ * @apiUse UserAuthorizationHeaderExample
  * @apiParam {Object} purchase The new purchse data to carry out the purchase operation with the third party.
  * @apiParamExample {json} Create product Request-Example:
  * {
@@ -119,8 +129,8 @@
  * 	 "destination": 5500000094,
  * 	 "comment": "This should result a response 200 but with an error status due to a NV error: rcode 03 'Usuario destino no esta registrado'"
  * }
- * @apiSuccess (200) {Object} product       The product that was inserted in the database.
- * @apiSuccessExample {json} Create product Success-Response:
+ * @apiSuccess (200) {Object} purchase       The purchase that was created with the third party provider and then inserted in the database.
+ * @apiSuccessExample {json} Create purchase Success-Response:
  * {
  *  "purchase": {
  *      "_id": "5c1bfa07818aa0b36885534d",
@@ -133,7 +143,7 @@
  *          {
  *              "updatedAt": "2018-12-20T20:22:31.856Z",
  *              "code": 0,
- *              "message": "INIT_PURCHASE"
+ *              "message": "PURCHASE_INIT"
  *          },
  *          {
  *              "updatedAt": "2018-12-20T20:22:32.210Z",
@@ -160,7 +170,7 @@
  *            {
  *                "updatedAt": "2018-12-20T20:34:22.522Z",
  *                "code": 0,
- *                "message": "INIT_PURCHASE"
+ *                "message": "PURCHASE_INIT"
  *            },
  *            {
  *                "updatedAt": "2018-12-20T20:34:22.727Z",
@@ -175,7 +185,9 @@
  *    }
  * }
  *
+ * @apiUse AuthenticationHeaderError
  * @apiUse NewPurchaseFieldsError
+ * @apiUse AuthenticationError
  * @apiUse PurchaseProductNotFoundError
  * @apiUse PurchaseProductDoesNotSupportAmountError
  */
@@ -203,7 +215,7 @@
  *             {
  *                 "updatedAt": "2018-12-19T00:56:09.231Z",
  *                 "code": 0,
- *                 "message": "INIT_PURCHASE"
+ *                 "message": "PURCHASE_INIT"
  *             }
  *         ],
  *         "createdAt": "2018-12-19T00:56:09.251Z",
@@ -240,7 +252,7 @@
  *             {
  *                 "updatedAt": "2018-12-19T00:56:09.231Z",
  *                 "code": 0,
- *                 "message": "INIT_PURCHASE"
+ *                 "message": "PURCHASE_INIT"
  *             }
  *         ],
  *         "createdAt": "2018-12-19T00:56:09.251Z",
@@ -258,9 +270,12 @@
  * @api {get} /api/purchase/user/:id GET
  * @apiName GetPurchasesByClientId
  * @apiGroup Purchase
+ * @apiPermission user
  *
  * @apiDescription Gets all the purchase associated to a specified client <code>id</code>.
  *
+ * @apiHeader {String} Authorization User unique access jwt token.
+ * @apiUse UserAuthorizationHeaderExample
  * @apiParam {string} id Client unique <code>id</code>.
  *
  * @apiSuccess (200) {Object[]} purchases       The purchases with the specified client <code>id</code>.
@@ -278,7 +293,7 @@
  *              {
  *                  "updatedAt": "2018-12-19T00:56:09.231Z",
  *                  "code": 0,
- *                  "message": "INIT_PURCHASE"
+ *                  "message": "PURCHASE_INIT"
  *              }
  *          ],
  *          "createdAt": "2018-12-19T00:56:09.251Z",
@@ -297,7 +312,7 @@
  *              {
  *                  "updatedAt": "2018-12-19T14:26:42.762Z",
  *                  "code": 0,
- *                  "message": "INIT_PURCHASE"
+ *                  "message": "PURCHASE_INIT"
  *              },
  *              {
  *                  "updatedAt": "2018-12-19T14:26:43.155Z",
@@ -321,7 +336,7 @@
  *              {
  *                  "updatedAt": "2018-12-19T15:25:57.248Z",
  *                  "code": 0,
- *                  "message": "INIT_PURCHASE"
+ *                  "message": "PURCHASE_INIT"
  *              },
  *              {
  *                  "updatedAt": "2018-12-19T15:25:57.602Z",
@@ -337,5 +352,8 @@
  *  ]
  * }
  *
+ * @apiUse AuthenticationHeaderError
  * @apiUse MongoIdError
+ * @apiUse AuthenticationError
+ *
  */

@@ -8,6 +8,12 @@ const amount = {
   _id: false
 };
 
+const productDescription = {
+  en: String,
+  es: String,
+  _id: false
+}
+
 const schema: Schema = new Schema({
   name: { type: String, required: true },
   productId: { type: String, required: true },
@@ -31,7 +37,9 @@ const schema: Schema = new Schema({
   timeout: { type: Number, required: true },
   supportsReversal: { type: Boolean, required: true },
   supportsCheckStatus: { type: Boolean, required: true },
-  observation: { type: String, required: false }
+  description: { type: productDescription, required: false },
+  destinationLength: { type: Number, required: true, default: 0 },
+  isActive: { type: Boolean, default: true }
 });
 
 export const ProductSchema: Model<IProduct> = model<IProduct>('Product', schema);

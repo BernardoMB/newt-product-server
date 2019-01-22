@@ -28,7 +28,7 @@ export class Api {
     //Log incomming requests
     if (environment.env !== 'test') app.use(morgan('dev'));
     //Validator middleware
-    appInsights.setup().start();
+    if(environment.env !== 'development') appInsights.setup().start();
     app.use(expressValidator());
     //Application routes
     app.use('/api/product', new ProductRoutes().routes());

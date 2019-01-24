@@ -3,10 +3,7 @@
 import { Model, Schema, model } from 'mongoose';
 import { sign } from 'jsonwebtoken';
 import { genSalt, hash } from 'bcryptjs';
-import { environment } from '../../environment';
 import { IUser } from '../../models/interfaces/IUser';
-
-const JWT_HASH = environment.jwtHash;
 
 const schema: Schema = new Schema({
 
@@ -42,7 +39,7 @@ schema.methods.generateToken = function() {
     id : this._id,
     access : 'auth'
   }
-  let token = sign(auth, JWT_HASH, {expiresIn : 30000});
+  let token = sign(auth, process.env.JWT_HASH, {expiresIn : 30000});
   user.token = token;
   return user.save().then(()=>{
       return token;

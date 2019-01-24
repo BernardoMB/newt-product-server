@@ -1,14 +1,10 @@
 import * as request from 'supertest';
 import { it, describe } from 'mocha';
 import { expect } from 'chai';
-
 import { sign } from 'jsonwebtoken';
-
-import { environment } from './../../environment';
 import { app } from './../../main';
 import { ProductRepository } from '../../repository/ProductRepository';
 import { PurchaseRepository } from '../../repository/PurchaseRepository';
-
 import { IProduct } from '../../models/interfaces/IProduct';
 import { PurchaseStatus } from '../../models/enums/PurchaseStatus';
 import { IPurchase, INewPurchase } from '../../models/interfaces/IPurchase';
@@ -113,7 +109,7 @@ const products: Partial<IProduct>[] = [
   }
 ];
 
-const authToken = sign('5c1996e35e015bc3483c153b', environment.jwtHash);
+const authToken = sign('5c1996e35e015bc3483c153b', process.env.JWT_HASH);
 
 const topUpNewPurchase: INewPurchase = {
   productId: 'A',

@@ -1,15 +1,19 @@
 import * as express from 'express';
 import { Db } from './data-access/config';
 import { Api } from './routes/base/Api';
-import { environment } from './environment';
 
 export const app = express();
+require('dotenv-flow').config({
+  node_env: process.env.NODE_ENV,
+  default_node_env: 'development'
+});
+
 
 function listen(): Promise<express.Express> {
   //Initialize all API routes
   Api.initialize(app);
   //Get environment variables
-  const { port } = environment;
+  const port = process.env.PORT;
   return new Promise((resolve, reject) => {
     app.listen(port, err => {
       if (err) reject(err);

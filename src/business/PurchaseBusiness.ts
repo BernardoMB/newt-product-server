@@ -1,5 +1,3 @@
-import { credentials } from '../secrets';
-
 import { PurchaseRepository } from '../repository/PurchaseRepository';
 import { ProductRepository } from '../repository/ProductRepository';
 import { IPurchaseBusiness } from './interfaces/IPurchaseBusiness';
@@ -24,7 +22,10 @@ export class PurchaseBusiness implements IPurchaseBusiness {
     this._purchaseRepository = new PurchaseRepository();
     this._productRepository = new ProductRepository();
     this._saleStatusRepository = new SaleStatusRepository();
-    this._credentials = credentials;
+    this._credentials = {
+      channelId : process.env.NEW_VISION_CHANNEL_ID,
+      channelPassword: process.env.NEW_VISION_CHANNEL_PASSWORD
+    };
   }
 
   async retrieve(): Promise<IPurchase[]> {

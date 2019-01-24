@@ -15,3 +15,5 @@ documentation/
 #System Files
 .DS_Store
 Thumbs.db
+#Enuironment uariables
+.env*

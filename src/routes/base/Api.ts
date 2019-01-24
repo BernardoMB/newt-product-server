@@ -12,6 +12,7 @@ import { BalanceRoutes } from '../BalanceRoutes';
 import { environment } from '../../environment';
 import { UserRoutes } from '../UserRoutes';
 
+const appInsights = require("applicationinsights");
 const DOC_PATH = join(__dirname, '../../../documentation');
 
 export class Api {
@@ -27,6 +28,7 @@ export class Api {
     //Log incomming requests
     if (environment.env !== 'test') app.use(morgan('dev'));
     //Validator middleware
+    if(environment.env !== 'development') appInsights.setup().start();
     app.use(expressValidator());
     //Application routes
     app.use('/api/product', new ProductRoutes().routes());

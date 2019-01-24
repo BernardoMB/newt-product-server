@@ -14,4 +14,7 @@ export interface IProduct extends mongoose.Document {
   supportsReversal: boolean;
   supportsCheckStatus: boolean;
   observation?: string;
+  description: {es: string, en: string},
+  destinationLength: number,
+  isActive: boolean
 }

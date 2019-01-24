@@ -21,7 +21,7 @@ export class UserRoutes {
     const controller = this._userController;
     router.post(
       '',
-      RequestValidator.validateWith([...userFieldsValidator, AuthenticationHeaderValidator]),
+      RequestValidator.validateWith([...userFieldsValidator]),
       AuthenticateSuperAdmin,
       controller.create
     );

@@ -11,7 +11,8 @@ export class ProductBusiness implements IProductBusiness {
   }
 
   async retrieve(): Promise<IProduct[]> {
-    return await (<Promise<IProduct[]>>this._productRepository.retrieve());
+    const products = await this._productRepository.retrieve();
+    return Promise.resolve(products.filter(p => p.isActive));
   }
 
   async findById(_id: string): Promise<IProduct> {

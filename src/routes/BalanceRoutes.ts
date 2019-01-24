@@ -16,7 +16,8 @@ export class BalanceRoutes {
 
   routes(): Router {
     const controller = this._balanceController;
-    router.get('', RequestValidator.validateWith([]), controller.getExternalBalance);
+    router.get('', RequestValidator.validateWith([]), controller.getChannelBalance);
+    router.post('/external', RequestValidator.validateWith([]), controller.getExternalBalance);
     return router;
   }
 }

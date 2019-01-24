@@ -9,7 +9,7 @@ export async function doSale({ channelId, channelPassword }, purchaseInfo: IPurc
   const xml = getSaleEnvelope(channelId, channelPassword, purchaseInfo);
   const {
     response: { body, statusCode }
-  } = await soapRequest(getUrl(), getHeaders('venta'), xml);
+  } = await soapRequest(getUrl(), getHeaders('venta'), xml, 30000);
   if (statusCode != 200) throw new Error(`Soap Service Error [${statusCode}]`);
   return await parseSaleStatusResponse(body);
 }
@@ -18,7 +18,7 @@ export async function getSaleStatus({ channelId, channelPassword }, purchaseInfo
   const xml = getSaleEnvelope(channelId, channelPassword, purchaseInfo);
   const {
     response: { body, statusCode }
-  } = await soapRequest(getUrl(), getHeaders('statusVenta'), xml);
+  } = await soapRequest(getUrl(), getHeaders('statusVenta'), xml, 30000);
   if (statusCode != 200) throw new Error(`Soap Service Error [${statusCode}]`);
   return await parseSaleStatusResponse(body);
 }

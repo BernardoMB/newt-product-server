@@ -11,7 +11,7 @@ export async function doReversal({ channelId, channelPassword }, purchaseInfo) {
   const xml = getReversalEnvelope(channelId, channelPassword, purchaseInfo);
   const {
     response: { body, statusCode }
-  } = await soapRequest(getUrl(), getHeaders('reverso'), xml);
+  } = await soapRequest(getUrl(), getHeaders('reverso'), xml, 30000);
   if (statusCode != 200) throw new Error(`Soap Service Error [${statusCode}]`);
   const result = await parseSaleStatusResponse(body);
   if (result.rcode !== '00')

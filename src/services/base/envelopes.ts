@@ -24,21 +24,21 @@ export function getBalanceEnvelope(channelId: string, channelPassword: string) {
         `;
 }
 
-export function getSaleEnvelope(channelId: string, channelPassword: string, purchaseInfo: IPurchaseRequest) {
+export function getSaleEnvelope(channelId: string, channelPassword: string, purchaseInfo: IPurchaseRequest, isExternalBalance: boolean = false) {
   const { id, terminalNo, productId, destination, amount, extra } = purchaseInfo;
   return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.chan.mx/">
       <soapenv:Header/>
       <soapenv:Body>
-        <ws:venta>
+        ${isExternalBalance ? '<ws:consulta>' : '<ws:venta>'}
              <id>${id}</id>
              <claveCanal>${channelId}</claveCanal>
              <passCanal>${channelPassword}</passCanal>
              <terminal>${terminalNo}</terminal>
              <producto>${productId}</producto>
              <destino>${destination}</destino>
-             <monto>${amount}</monto>
+             <monto>${!!amount ? amount : ''}</monto>
              ${!!extra ? '<extra>' + extraObjToString(extra) + '</extra>' : '<extra/>'}
-          </ws:venta>
+        ${isExternalBalance ? '</ws:consulta>' : '</ws:venta>'}
       </soapenv:Body>
     </soapenv:Envelope>`;
 }

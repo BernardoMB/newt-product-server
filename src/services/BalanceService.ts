@@ -15,7 +15,7 @@ export async function getBalance({ channelId, channelPassword }) {
 }
 
 export async function getExternalBalance({ channelId, channelPassword }, purchaseInfo: IPurchaseRequest) {
-  const xml = getSaleEnvelope(channelId, channelPassword, purchaseInfo);
+  const xml = getSaleEnvelope(channelId, channelPassword, purchaseInfo, true);
   const {
     response: { body, statusCode }
   } = await soapRequest(getUrl(), getHeaders('saldoExterno'), xml, 30000);

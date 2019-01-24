@@ -25,7 +25,6 @@ export class BalanceBusiness implements IBalanceBusiness {
 
   async getExternalBalance(item: IPurchaseRequest) {
     const externalBalance = await getExternalBalance(this._credentials, item);
-    console.log(externalBalance);
     return {
       ...externalBalance,
       date: new Date()

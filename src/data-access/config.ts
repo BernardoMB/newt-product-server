@@ -1,7 +1,4 @@
 import * as Mongoose from 'mongoose';
-
-import { environment } from '../environment';
-
 export class Db {
   private auth: boolean;
 
@@ -13,7 +10,7 @@ export class Db {
   //Connect to the mongodb database corresponding to the current environment
   async connect() {
     try {
-      const { db } = environment;
+      const db = process.env.DB;
       let connection: typeof Mongoose;
       if (this.auth) {
         connection = await Mongoose.connect(
@@ -26,7 +23,7 @@ export class Db {
           { useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true }
         );
       }
-      console.log(`Running on environment: \x1b[34m${environment.env}\x1b[0m`);
+      console.log(`Running on environment: \x1b[34m${process.env.NODE_ENV}\x1b[0m`);
       console.log(`Connected to db: \x1b[34m${db}\x1b[0m`);
       return connection;
     } catch (e) {
@@ -36,7 +33,7 @@ export class Db {
   //Disconnect from the mongodb database
   async disconnect() {
     try {
-      const { db } = environment;
+      const db = process.env.DB;
       await Mongoose.connection.close();
       console.log(`Disconnected from db: \x1b[34m${db}\x1b[0m`);
     } catch (e) {

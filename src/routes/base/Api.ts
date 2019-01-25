@@ -9,7 +9,6 @@ import { ErrorHandler } from '../middlewares/handlers/ErrorHandler';
 import { ProductRoutes } from '../ProductRoutes';
 import { PurchaseRoutes } from '../PurchaseRoutes';
 import { BalanceRoutes } from '../BalanceRoutes';
-import { environment } from '../../environment';
 import { UserRoutes } from '../UserRoutes';
 
 const appInsights = require("applicationinsights");
@@ -26,9 +25,9 @@ export class Api {
     app.use(express.static(DOC_PATH));
     app.get('/docs', (req, res) => res.sendFile(`${DOC_PATH}/index.html`));
     //Log incomming requests
-    if (environment.env !== 'test') app.use(morgan('dev'));
+    if (process.env.NODE_ENV !== 'test') app.use(morgan('dev'));
     //Validator middleware
-    if(environment.env !== 'development') appInsights.setup().start();
+    if(process.env.NODE_ENV === 'staging') appInsights.setup().start();
     app.use(expressValidator());
     //Application routes
     app.use('/api/product', new ProductRoutes().routes());

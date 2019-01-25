@@ -1,5 +1,3 @@
-import { credentials } from '../secrets';
-
 import { IBalanceBusiness } from './interfaces/IBalanceBusiness';
 import { getBalance, getExternalBalance } from '../services/BalanceService';
 
@@ -11,7 +9,10 @@ export class BalanceBusiness implements IBalanceBusiness {
   private _credentials: ICredentials;
 
   constructor() {
-    this._credentials = credentials;
+    this._credentials = {
+      channelId : process.env.NEW_VISION_CHANNEL_ID,
+      channelPassword: process.env.NEW_VISION_CHANNEL_PASSWORD
+    };
   }
 
   async getChannelBalance() {
@@ -24,7 +25,6 @@ export class BalanceBusiness implements IBalanceBusiness {
 
   async getExternalBalance(item: IPurchaseRequest) {
     const externalBalance = await getExternalBalance(this._credentials, item);
-    console.log(externalBalance);
     return {
       ...externalBalance,
       date: new Date()
